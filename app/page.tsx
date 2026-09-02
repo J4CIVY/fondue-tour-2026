@@ -345,14 +345,14 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0c1d24]/92 text-white backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <a href="#top" className="flex items-center gap-2 font-semibold tracking-tight">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-2 sm:px-8">
+          <a href="#top" className="site-brand flex min-h-11 items-center gap-2 font-semibold tracking-tight">
             <span className="grid size-8 place-items-center rounded-full bg-[#f0bb4b] text-[#10272f]"><Mountain className="size-4" /></span>
-            Fondue Tour ’26
+            <span className="brand-long">Fondue Tour ’26</span><span className="brand-short">Fondue ’26</span>
           </a>
           <nav aria-label="Tour navigation" className="flex items-center gap-1 text-sm text-white/70">
-            <a className="rounded-full px-3 py-2 hover:bg-white/10 hover:text-white" href="#overview">Full route</a>
-            <a className="rounded-full px-3 py-2 hover:bg-white/10 hover:text-white" href="#roadbook">Roadbook</a>
+            <a className="header-link rounded-full px-3 hover:bg-white/10 hover:text-white" href="#overview"><span className="nav-long">Full route</span><span className="nav-short">Route</span></a>
+            <a className="header-link rounded-full px-3 hover:bg-white/10 hover:text-white" href="#roadbook"><span className="nav-long">Roadbook</span><span className="nav-short">Days</span></a>
             <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#essentials">Essentials</a>
             <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#homeward">Homeward</a>
           </nav>

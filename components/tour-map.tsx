@@ -69,7 +69,13 @@ export function FullTourOverview() {
         const geojson = await response.json() as FullRouteGeoJson;
         if (disposed || !mapElement.current) return;
 
-        map = L.map(mapElement.current, { scrollWheelZoom: false, zoomControl: false });
+        const compact = window.matchMedia('(max-width: 639px)').matches;
+        map = L.map(mapElement.current, {
+          dragging: !compact,
+          scrollWheelZoom: false,
+          touchZoom: !compact,
+          zoomControl: false,
+        });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
@@ -156,7 +162,7 @@ export function FullTourOverview() {
                     <span className="mt-1 size-2.5 shrink-0 rounded-full" style={{ backgroundColor: feature.properties.color }} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-xs font-semibold">{feature.properties.label}</span>
-                      <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">{feature.properties.start} → {feature.properties.end}</span>
+                      <span className="mt-0.5 block text-[11px] leading-4 text-muted-foreground">{feature.properties.start} → {feature.properties.end}</span>
                     </span>
                     <span className="font-mono text-[10px] text-muted-foreground">{Math.round(feature.properties.distanceMetres / 1000)} km</span>
                   </div>
@@ -165,7 +171,7 @@ export function FullTourOverview() {
               <a href="/gpx/full-tour.gpx" download className="map-button map-button-dark mt-6 w-full">
                 <Download className="size-4" /> Full-route TomTom GPX
               </a>
-              <a href="#navigator" className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-[#b84a32] hover:underline">
+              <a href="#navigator" className="mobile-action-link mt-2 flex items-center justify-center gap-2 text-xs font-semibold text-[#b84a32] hover:underline">
                 Open daily restart navigator <Navigation className="size-3.5" />
               </a>
             </div>
@@ -245,7 +251,13 @@ export function TourMap() {
         if (!routeFeature) throw new Error('Route geometry was not available');
         const coordinates = routeFeature.geometry.coordinates.map(([lon, lat]: [number, number]) => [lat, lon] as [number, number]);
 
-        map = L.map(mapElement.current, { scrollWheelZoom: false, zoomControl: false });
+        const compact = window.matchMedia('(max-width: 639px)').matches;
+        map = L.map(mapElement.current, {
+          dragging: !compact,
+          scrollWheelZoom: false,
+          touchZoom: !compact,
+          zoomControl: false,
+        });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
@@ -343,12 +355,12 @@ export function TourMap() {
                   <span className="rounded-full bg-[#f1eee6] px-3 py-1.5">{hours}</span>
                   <span className="rounded-full bg-[#f1eee6] px-3 py-1.5">{activePlan.stops.length} stops</span>
                 </div>
-                <a href={`/gpx/${activePlan.id}.gpx`} download className="mt-4 inline-flex items-center gap-2 text-xs font-semibold hover:underline" style={{ color: activePlan.color }}>
+                <a href={`/gpx/${activePlan.id}.gpx`} download className="compact-download mt-4 inline-flex items-center gap-2 text-xs font-semibold hover:underline" style={{ color: activePlan.color }}>
                   <Download className="size-3.5" /> Download this full GPX
                 </a>
               </div>
 
-              <div className="max-h-[540px] overflow-y-auto p-2 sm:p-3">
+              <div className="route-restart-scroll max-h-[540px] overflow-y-auto p-2 sm:p-3">
                 <p className="px-3 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[.18em] text-muted-foreground">Start from…</p>
                 {activePlan.stops.map((stop, index) => {
                   const remaining = activePlan.stops.length - index;
@@ -357,8 +369,8 @@ export function TourMap() {
                       <a href={directionsUrl(activePlan.stops, index)} target="_blank" rel="noreferrer" className="route-restart-main">
                         <span className="route-restart-number" style={{ backgroundColor: activePlan.color }}>{index + 1}</span>
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-sm font-semibold">{stop.name}</span>
-                          <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">
+                          <span className="block text-sm font-semibold leading-5">{stop.name}</span>
+                          <span className="mt-0.5 block text-[11px] leading-4 text-muted-foreground">
                             {stop.time ? `${stop.time} · ` : ''}{remaining === 1 ? 'Open final stop' : `${remaining - 1} stop${remaining - 1 === 1 ? '' : 's'} remaining`}
                           </span>
                         </span>
@@ -399,8 +411,8 @@ export function TourMap() {
         </div>
 
         <div className="mt-4 flex flex-wrap gap-4 text-xs font-semibold">
-          <a href="https://plan.tomtom.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:underline">Open TomTom Plan <ExternalLink className="size-3.5" /></a>
-          <a href="https://help.tomtom.com/hc/en-gb/articles/360013958599-Importing-items-in-Plan-TomTom-com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:underline">TomTom GPX instructions <ExternalLink className="size-3.5" /></a>
+          <a href="https://plan.tomtom.com/" target="_blank" rel="noreferrer" className="support-link inline-flex items-center gap-1.5 hover:underline">Open TomTom Plan <ExternalLink className="size-3.5" /></a>
+          <a href="https://help.tomtom.com/hc/en-gb/articles/360013958599-Importing-items-in-Plan-TomTom-com" target="_blank" rel="noreferrer" className="support-link inline-flex items-center gap-1.5 hover:underline">TomTom GPX instructions <ExternalLink className="size-3.5" /></a>
         </div>
       </div>
     </section>
