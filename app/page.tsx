@@ -22,6 +22,7 @@ import {
   Utensils,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { TourMap } from '@/components/tour-map';
 
 const mapsRoute = (origin: string, destination: string, waypoints: string[] = [], travelmode = 'driving') => {
   const params = new URLSearchParams({ api: '1', origin, destination, travelmode });
@@ -350,6 +351,7 @@ export default function Home() {
             Fondue Tour ’26
           </a>
           <nav aria-label="Tour navigation" className="flex items-center gap-1 text-sm text-white/70">
+            <a className="rounded-full px-3 py-2 hover:bg-white/10 hover:text-white" href="#navigator">Map</a>
             <a className="rounded-full px-3 py-2 hover:bg-white/10 hover:text-white" href="#roadbook">Roadbook</a>
             <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#essentials">Essentials</a>
             <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#homeward">Homeward</a>
@@ -368,7 +370,7 @@ export default function Home() {
             <Badge className="mb-5 bg-[#f0bb4b] text-[#10272f]">8–17 September 2026</Badge>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[.24em] text-[#9dc1b3]">Switzerland · France · Italy</p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-[.96] tracking-[-.055em] sm:text-7xl">Five days.<br />One Alpine line.</h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-white/68 sm:text-lg">Your pocket roadbook for every pass, rendezvous, fuel stop and hotel — with Google Maps routes ready to open.</p>
+            <p className="mt-6 max-w-xl text-base leading-7 text-white/68 sm:text-lg">Your pocket roadbook for every pass, rendezvous, fuel stop and hotel — with restart navigation, open maps and TomTom tracks.</p>
           </div>
 
           <div className="relative z-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/12 bg-white/12">
@@ -406,6 +408,8 @@ export default function Home() {
           {days.map((day) => <a key={day.id} href={`#${day.id}`} className="day-chip"><span className="font-semibold">{day.weekday}</span><span className="text-muted-foreground">{day.date.split(' ')[0]}</span></a>)}
         </div>
       </nav>
+
+      <TourMap />
 
       <section id="roadbook" className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
         <div className="mb-8 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">

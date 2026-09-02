@@ -15,16 +15,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://fondue-tour-2026.jayfarei.chatgpt.site'),
   title: 'Fondue Tour 2026 — Alpine Roadbook',
-  description: 'A mobile roadbook for the 2026 Fondue Tour through Switzerland, France and Italy.',
+  description: 'A mobile roadbook with interactive routes, restart navigation and TomTom GPX downloads for the 2026 Fondue Tour.',
   openGraph: {
     title: 'Fondue Tour 2026',
-    description: 'Five days. One Alpine line.',
+    description: 'Five days. One Alpine line. Restart navigation and TomTom routes included.',
     images: [{ url: '/og.png', width: 1731, height: 909, alt: 'Fondue Tour 2026 — Five days. One Alpine line.' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Fondue Tour 2026',
-    description: 'Five days. One Alpine line.',
+    description: 'Five days. One Alpine line. Restart navigation and TomTom routes included.',
     images: ['/og.png'],
   },
 };

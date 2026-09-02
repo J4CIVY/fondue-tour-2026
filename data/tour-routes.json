@@ -1,0 +1,152 @@
+[
+  {
+    "id": "tuesday-warmup",
+    "day": "Tue 08",
+    "title": "Warm-up · Menton to Val Cenis",
+    "subtitle": "Adrien’s France–Italy–France approach while you fly to Zürich.",
+    "color": "#d39b31",
+    "stops": [
+      { "time": "09:30", "name": "Menton", "detail": "Roadbook departure", "lat": 43.7653243, "lon": 7.4557044 },
+      { "time": "11:55", "name": "Col de la Bonette", "detail": "Picnic stop", "lat": 44.3266994, "lon": 6.8074733 },
+      { "time": "", "name": "L’Igloo · Col de Vars", "detail": "Roadbook waypoint", "lat": 44.5391007, "lon": 6.7029456 },
+      { "time": "15:23", "name": "Col d’Izoard", "detail": "Pass and coffee option", "lat": 44.819732, "lon": 6.734978 },
+      { "time": "", "name": "Refuge Napoléon", "detail": "Izoard stop", "lat": 44.8230728, "lon": 6.7329932 },
+      { "time": "", "name": "AVIA Briançon", "detail": "Fuel", "lat": 44.8938438, "lon": 6.6300918 },
+      { "time": "", "name": "Exilles", "detail": "Italian waypoint", "lat": 45.0978014, "lon": 6.9291885 },
+      { "time": "18:47", "name": "Saint Charles · Val Cenis", "detail": "Overnight hotel", "lat": 45.2849656, "lon": 6.8850567 }
+    ]
+  },
+  {
+    "id": "wednesday-personal",
+    "day": "Wed 09 · You",
+    "title": "Zürich to the rendezvous, then La Thuile",
+    "subtitle": "Your early start joins the group at Col des Aravis and continues across Petit-Saint-Bernard.",
+    "color": "#b84a32",
+    "stops": [
+      { "time": "06:30", "name": "ibis Budget Zürich Airport", "detail": "Leave no later than 06:45", "lat": 47.4388589, "lon": 8.5628106 },
+      { "time": "13:00", "name": "Le Chalet Savoyard · Col des Aravis", "detail": "Lunch and group rendezvous", "lat": 45.872759, "lon": 6.4634548 },
+      { "time": "15:57", "name": "Les Saisies", "detail": "Scenic leg", "lat": 45.756431, "lon": 6.541775 },
+      { "time": "16:42", "name": "Le Chalet de Roselend", "detail": "Coffee and photo stop", "lat": 45.695036, "lon": 6.6348689 },
+      { "time": "", "name": "Cormet de Roselend", "detail": "Roadbook waypoint", "lat": 45.693806, "lon": 6.658449 },
+      { "time": "", "name": "Hospice du Petit-Saint-Bernard", "detail": "France–Italy crossing", "lat": 45.6714524, "lon": 6.8756012 },
+      { "time": "", "name": "Colle del Piccolo San Bernardo", "detail": "Italian side of the pass", "lat": 45.6833134, "lon": 6.8860358 },
+      { "time": "18:50", "name": "Chalet Eden · La Thuile", "detail": "Dinner 20:30", "lat": 45.7081906, "lon": 6.9511927 }
+    ]
+  },
+  {
+    "id": "wednesday-group",
+    "day": "Wed 09 · Group",
+    "title": "Val Cenis to La Thuile",
+    "subtitle": "The air and warm-up crews converge at Col des Aravis before the afternoon route.",
+    "color": "#a93e2b",
+    "stops": [
+      { "time": "", "name": "Saint Charles · Val Cenis", "detail": "Group morning departure", "lat": 45.2849656, "lon": 6.8850567 },
+      { "time": "", "name": "Col de l’Iseran approach", "detail": "Roadbook waypoint", "lat": 45.3969199, "lon": 7.0387658 },
+      { "time": "", "name": "Col de l’Iseran", "detail": "High pass", "lat": 45.417126, "lon": 7.030626 },
+      { "time": "", "name": "Intermarché Bourg-Saint-Maurice", "detail": "Fuel", "lat": 45.623635, "lon": 6.779659 },
+      { "time": "", "name": "Cormet de Roselend", "detail": "Roadbook waypoint", "lat": 45.691339, "lon": 6.6906235 },
+      { "time": "13:14", "name": "Le Chalet Savoyard · Col des Aravis", "detail": "Lunch and rendezvous", "lat": 45.872759, "lon": 6.4634548 },
+      { "time": "15:57", "name": "Les Saisies", "detail": "Scenic leg", "lat": 45.756431, "lon": 6.541775 },
+      { "time": "16:42", "name": "Le Chalet de Roselend", "detail": "Coffee and photo stop", "lat": 45.695036, "lon": 6.6348689 },
+      { "time": "", "name": "Hospice du Petit-Saint-Bernard", "detail": "France–Italy crossing", "lat": 45.6714524, "lon": 6.8756012 },
+      { "time": "18:50", "name": "Chalet Eden · La Thuile", "detail": "Dinner 20:30", "lat": 45.7081906, "lon": 6.9511927 }
+    ]
+  },
+  {
+    "id": "thursday-loop",
+    "day": "Thu 10",
+    "title": "La Thuile to the Furka–Tremola loop",
+    "subtitle": "Aosta, Great St Bernard, Sierre, Furka, Tremola and Nufenen, finishing in Goms.",
+    "color": "#396b67",
+    "stops": [
+      { "time": "09:00", "name": "Chalet Eden · La Thuile", "detail": "Depart hotel", "lat": 45.7081906, "lon": 6.9511927 },
+      { "time": "", "name": "ENI Aosta", "detail": "Fuel", "lat": 45.732847, "lon": 7.2990344 },
+      { "time": "", "name": "Saint-Rhémy viewpoint", "detail": "Great St Bernard approach", "lat": 45.8706294, "lon": 7.1573899 },
+      { "time": "10:48", "name": "Great St Bernard Hospice", "detail": "Photo stop and border crossing", "lat": 45.8689158, "lon": 7.1705651 },
+      { "time": "12:33", "name": "Lac de Géronde", "detail": "Flexible lunch and swim", "lat": 46.2873758, "lon": 7.5409741 },
+      { "time": "", "name": "Restaurant Z’Matt", "detail": "Alternative lunch", "lat": 46.340697, "lon": 8.023908 },
+      { "time": "", "name": "Hängebrücke Fürgangen", "detail": "Suspension bridge", "lat": 46.410532, "lon": 8.1509586 },
+      { "time": "15:14", "name": "Hotel Landhaus", "detail": "Optional check-in", "lat": 46.4879271, "lon": 8.268457 },
+      { "time": "15:40", "name": "Belvedere Furka", "detail": "Glacier viewpoint", "lat": 46.576739, "lon": 8.38835 },
+      { "time": "", "name": "Furka photo point", "detail": "Roadbook waypoint", "lat": 46.5716026, "lon": 8.4093321 },
+      { "time": "", "name": "Parcheggio Tremola", "detail": "Historic Gotthard road", "lat": 46.5496678, "lon": 8.5686232 },
+      { "time": "", "name": "Nufenenpass", "detail": "Final pass loop", "lat": 46.47819, "lon": 8.3864176 },
+      { "time": "", "name": "Agrola Ulrichen", "detail": "Fuel", "lat": 46.5068152, "lon": 8.3066168 },
+      { "time": "18:26", "name": "Hotel Landhaus", "detail": "Dinner 20:15", "lat": 46.4879271, "lon": 8.268457 }
+    ]
+  },
+  {
+    "id": "friday-san-bernardino",
+    "day": "Fri 11 · Long",
+    "title": "Gelmerbahn to Valbella via San Bernardino",
+    "subtitle": "The longer afternoon option, for an early departure and good pass conditions.",
+    "color": "#5b637d",
+    "stops": [
+      { "time": "08:20", "name": "Hotel Landhaus", "detail": "Early departure", "lat": 46.4879271, "lon": 8.268457 },
+      { "time": "", "name": "Grimsel Pass", "detail": "Morning pass", "lat": 46.5614, "lon": 8.33758 },
+      { "time": "09:00", "name": "Gelmerbahn", "detail": "Walk from parking; ascent 09:48", "lat": 46.6136385, "lon": 8.3085363 },
+      { "time": "", "name": "Gschletterkurve", "detail": "Susten road waypoint", "lat": 46.7424683, "lon": 8.3806647 },
+      { "time": "", "name": "Susten viewpoint", "detail": "Photo stop", "lat": 46.7330611, "lon": 8.4127499 },
+      { "time": "12:21", "name": "Susten Pass", "detail": "Continue toward Oberalp", "lat": 46.7293696, "lon": 8.4470234 },
+      { "time": "13:21", "name": "Ustria Alpsu", "detail": "Lunch and route decision", "lat": 46.6587706, "lon": 8.6714017 },
+      { "time": "", "name": "Garviel da Medel", "detail": "Lukmanier route", "lat": 46.60218, "lon": 8.8172 },
+      { "time": "", "name": "Motto · Blenio", "detail": "Roadbook waypoint", "lat": 46.42895, "lon": 8.97053 },
+      { "time": "", "name": "Mesocco", "detail": "San Bernardino approach", "lat": 46.4109835, "lon": 9.2288448 },
+      { "time": "", "name": "San Bernardino village", "detail": "Roadbook waypoint", "lat": 46.4361286, "lon": 9.2051555 },
+      { "time": "", "name": "San Bernardino Pass", "detail": "High pass", "lat": 46.4959, "lon": 9.17079 },
+      { "time": "", "name": "Albula Pass", "detail": "Late-afternoon pass", "lat": 46.6626282, "lon": 9.5765123 },
+      { "time": "", "name": "Migrol Lantsch/Lenz", "detail": "Fuel", "lat": 46.6896395, "lon": 9.5619604 },
+      { "time": "18:50", "name": "Hotel Waldhaus am See", "detail": "Fondue at 20:00", "lat": 46.7445648, "lon": 9.5555085 }
+    ]
+  },
+  {
+    "id": "friday-albula",
+    "day": "Fri 11 · Short",
+    "title": "Gelmerbahn to Valbella via Albula",
+    "subtitle": "The shorter weather or time fallback selected at Ustria Alpsu.",
+    "color": "#737b97",
+    "stops": [
+      { "time": "08:20", "name": "Hotel Landhaus", "detail": "Early departure", "lat": 46.4879271, "lon": 8.268457 },
+      { "time": "", "name": "Grimsel Pass", "detail": "Morning pass", "lat": 46.5614, "lon": 8.33758 },
+      { "time": "09:00", "name": "Gelmerbahn", "detail": "Walk from parking; ascent 09:48", "lat": 46.6136385, "lon": 8.3085363 },
+      { "time": "", "name": "Gschletterkurve", "detail": "Susten road waypoint", "lat": 46.7424683, "lon": 8.3806647 },
+      { "time": "12:21", "name": "Susten Pass", "detail": "Continue toward Oberalp", "lat": 46.7293696, "lon": 8.4470234 },
+      { "time": "13:21", "name": "Ustria Alpsu", "detail": "Lunch and route decision", "lat": 46.6587706, "lon": 8.6714017 },
+      { "time": "", "name": "Rothenbrunnen", "detail": "Short-route junction", "lat": 46.768871, "lon": 9.419464 },
+      { "time": "", "name": "Albula Pass", "detail": "Optional pass out-and-back", "lat": 46.6626282, "lon": 9.5765123 },
+      { "time": "", "name": "Gino Mäder memorial", "detail": "Roadbook waypoint", "lat": 46.5885894, "lon": 9.8841991 },
+      { "time": "", "name": "Albula Hospiz", "detail": "Pass stop", "lat": 46.5825598, "lon": 9.8376326 },
+      { "time": "", "name": "Migrol Lantsch/Lenz", "detail": "Fuel", "lat": 46.6896395, "lon": 9.5619604 },
+      { "time": "18:50", "name": "Hotel Waldhaus am See", "detail": "Fondue at 20:00", "lat": 46.7445648, "lon": 9.5555085 }
+    ]
+  },
+  {
+    "id": "saturday-ascona",
+    "day": "Sat 12",
+    "title": "Valbella to Ascona",
+    "subtitle": "Mountain karts, Maloja, Italy transit, Splügen and San Bernardino.",
+    "color": "#836036",
+    "stops": [
+      { "time": "09:00", "name": "Hotel Waldhaus am See", "detail": "Depart hotel", "lat": 46.7445648, "lon": 9.5555085 },
+      { "time": "09:28", "name": "Wasescha Sport · Savognin", "detail": "Mountain karts until 11:58", "lat": 46.5960964, "lon": 9.5922141 },
+      { "time": "", "name": "Restaurant PappaLoù", "detail": "Lunch option", "lat": 46.4552131, "lon": 9.7913587 },
+      { "time": "12:50", "name": "Bellavista · Maloja", "detail": "Lunch / regroup", "lat": 46.4084383, "lon": 9.701675 },
+      { "time": "15:00", "name": "Shell Stampa", "detail": "Fuel", "lat": 46.341229, "lon": 9.584355 },
+      { "time": "16:18", "name": "Berghaus Splügenpass", "detail": "30-minute break", "lat": 46.5120593, "lon": 9.3274123 },
+      { "time": "", "name": "Ospizio San Bernardino", "detail": "Pass stop", "lat": 46.4960855, "lon": 9.1705533 },
+      { "time": "", "name": "Mesocco parking", "detail": "Roadbook waypoint", "lat": 46.4469956, "lon": 9.2011886 },
+      { "time": "18:44", "name": "Hotel Ascona", "detail": "Via Signor in Croce 1", "lat": 46.1593333, "lon": 8.7694379 }
+    ]
+  },
+  {
+    "id": "sunday-return",
+    "day": "Sun 13",
+    "title": "Ascona to the Lugano car return",
+    "subtitle": "Your personal close-out route; continue to Bellinzona by bus and train after returning the car.",
+    "color": "#263d45",
+    "stops": [
+      { "time": "08:15", "name": "Hotel Ascona", "detail": "Suggested departure", "lat": 46.1593333, "lon": 8.7694379 },
+      { "time": "10:00", "name": "Europcar / AMAG Lugano", "detail": "Return · Via Monte Boglia 24", "lat": 46.0175167, "lon": 8.9609335 }
+    ]
+  }
+]
