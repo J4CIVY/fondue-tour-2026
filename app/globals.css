@@ -196,11 +196,11 @@ body { --font-display: var(--font-barlow), 'Barlow Condensed', 'Arial Narrow', s
 .header-link:hover { background: rgb(255 255 255 / 10%); color: #fff; }
 
 .tour-mark {
+  width: auto;
+  height: 2.35rem;
   flex: 0 0 auto;
-  border: 1px solid rgb(255 255 255 / 16%);
-  border-radius: .7rem;
   object-fit: contain;
-  filter: drop-shadow(0 3px 10px rgb(0 0 0 / 18%));
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 35%));
 }
 
 /* ---------- Hero ---------- */
@@ -260,11 +260,10 @@ body { --font-display: var(--font-barlow), 'Barlow Condensed', 'Arial Narrow', s
 }
 
 .hero-mark {
-  width: 4.25rem;
-  height: 4.25rem;
+  width: auto;
+  height: 5.25rem;
   object-fit: contain;
-  border-radius: 1rem;
-  filter: drop-shadow(0 10px 26px rgb(0 0 0 / 30%));
+  filter: drop-shadow(0 12px 26px rgb(0 0 0 / 45%));
 }
 
 .hero-topline-copy { display: grid; gap: .2rem; }
@@ -387,164 +386,145 @@ body { --font-display: var(--font-barlow), 'Barlow Condensed', 'Arial Narrow', s
   box-shadow: 0 1px 3px rgb(18 38 45 / 12%);
 }
 
-/* ---------- Pass ledger (signature) ---------- */
+/* ---------- Stage profile (signature) ---------- */
 
-.ledger {
+.profile {
   position: relative;
   overflow: hidden;
-  padding: 4rem 0 3.5rem;
+  border-block: 1px solid rgb(23 50 48 / 14%);
+  padding: 4rem 0 2.5rem;
   background:
-    radial-gradient(60% 50% at 100% 0%, rgb(230 180 69 / 12%), transparent 70%),
-    var(--pine);
-  color: #fff;
+    linear-gradient(180deg, #f6efdd 0%, #f1e8d2 100%);
+  color: var(--ink);
 }
 
-.ledger-tally {
+.profile-tally {
   display: grid;
   grid-template-columns: repeat(3, auto);
   gap: 1.5rem;
 }
 
-.ledger-tally dt {
-  font-size: .68rem;
+.profile-tally dt {
+  font-size: .66rem;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: rgb(255 255 255 / 52%);
+  color: rgb(15 31 30 / 52%);
 }
 
-.ledger-tally dd {
-  margin-top: .2rem;
+.profile-tally dd {
+  margin-top: .15rem;
   font-family: var(--font-display);
   font-size: 2.4rem;
   font-weight: 700;
   line-height: 1;
-  color: var(--mustard);
+  color: var(--pine);
 }
 
-.ledger-tally dd span { font-size: 1.1rem; color: rgb(255 255 255 / 60%); }
+.profile-tally dd span { font-size: 1.1rem; color: rgb(15 31 30 / 50%); }
 
-.ledger-hint {
-  margin-top: 1rem;
+.profile-scroll {
+  margin-top: 2.25rem;
+  overflow-x: auto;
+  padding-bottom: .5rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(23 50 48 / 30%) transparent;
+}
+
+.profile-frame {
+  min-width: 1080px;
+  padding-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 2rem));
+}
+
+.profile-svg { display: block; width: 100%; height: auto; }
+
+.profile-grid { stroke: rgb(23 50 48 / 16%); stroke-width: 1; stroke-dasharray: 3 4; }
+
+.profile-grid-label {
+  fill: rgb(15 31 30 / 42%);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  letter-spacing: .06em;
+}
+
+.profile-ridge {
+  fill: none;
+  stroke: #8a6410;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.profile-terminus-name {
+  fill: var(--pine);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.profile-terminus-metres {
+  fill: rgb(15 31 30 / 55%);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9.5px;
+  letter-spacing: .04em;
+}
+
+.profile-leader { stroke: rgb(23 50 48 / 45%); stroke-width: .9; }
+
+.profile-badge-text {
+  fill: #fffdf8;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.profile-summit {
+  fill: var(--ink);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+.profile-summit-metres { fill: #8a6410; font-weight: 700; }
+
+.profile-summit-note {
+  fill: rgb(15 31 30 / 48%);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 8.5px;
+  letter-spacing: .02em;
+}
+
+.profile-axis { fill: var(--ink); }
+.profile-tick { stroke: rgb(23 50 48 / 35%); stroke-width: 1; }
+
+.profile-axis-text {
+  fill: #f4ecda;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9.5px;
+  letter-spacing: .06em;
+}
+
+.profile-band-edge { stroke: rgb(23 50 48 / 20%); stroke-width: 1; }
+
+.profile-band-text {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.profile-caption {
+  margin-top: .85rem;
   padding-inline: 1.25rem;
   text-align: center;
   font-family: var(--font-geist-mono), monospace;
   font-size: .62rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: rgb(244 236 218 / 45%);
-}
-
-.ledger-strip {
-  margin-top: 2.5rem;
-  overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgb(244 236 218 / 30%) transparent;
-  padding-bottom: .75rem;
-}
-
-.ledger-track {
-  --plate-width: 7.25rem;
-  --plate-gap: .5rem;
-  width: calc(23 * var(--plate-width) + 22 * var(--plate-gap));
-  padding-inline: max(1.25rem, calc((100vw - 72rem) / 2 + 2rem));
-  box-sizing: content-box;
-}
-
-.ledger-chart {
-  position: relative;
-  height: 150px;
-  border-bottom: 1px solid rgb(244 236 218 / 25%);
-}
-
-.ledger-skyline {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.ledger-gridline { stroke: rgb(244 236 218 / 12%); stroke-width: .3; vector-effect: non-scaling-stroke; }
-
-.ledger-ridge {
-  fill: none;
-  stroke: var(--cream);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  animation: ridge-draw 2.4s .3s ease-out forwards;
-}
-
-@keyframes ridge-draw { to { stroke-dashoffset: 0; } }
-
-.ledger-mark {
-  position: absolute;
-  right: 0;
-  transform: translateY(-100%);
-  padding-bottom: .15rem;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: .6rem;
-  letter-spacing: .08em;
-  color: rgb(244 236 218 / 45%);
-}
-
-.ledger-plates {
-  display: grid;
-  grid-template-columns: repeat(23, var(--plate-width));
-  gap: var(--plate-gap);
-  margin-top: .75rem;
-}
-
-.ledger-plate {
-  --plate-color: var(--mustard);
-  display: grid;
-  min-width: 0;
-  gap: .15rem;
-  border-top: 3px solid var(--plate-color);
-  padding-top: .55rem;
-}
-
-.ledger-plate.is-warmup { opacity: .55; }
-
-.ledger-plate-day {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: .6rem;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgb(255 255 255 / 55%);
-}
-
-.ledger-plate-alt {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--cream);
-}
-
-.ledger-plate-alt small {
-  margin-left: .1rem;
-  font-size: .7rem;
-  font-weight: 600;
-  color: var(--plate-color);
-}
-
-.ledger-plate-name {
-  font-family: var(--font-display);
-  font-size: .95rem;
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  color: #fff;
-}
-
-.ledger-plate-note {
-  font-size: .64rem;
-  line-height: 1.3;
-  color: rgb(255 255 255 / 55%);
+  color: rgb(15 31 30 / 45%);
 }
 
 /* ---------- Crew ---------- */
@@ -1156,11 +1136,9 @@ body { --font-display: var(--font-barlow), 'Barlow Condensed', 'Arial Narrow', s
   [aria-label='Jump to tour day'] > div::-webkit-scrollbar { display: none; }
   .route-restart-main { padding-block: .8rem; }
   .route-restart-gpx { min-width: 3.4rem; }
-  .ledger { padding-top: 3rem; }
-  .ledger-tally { gap: 1rem; }
-  .ledger-tally dd { font-size: 1.9rem; }
-  .ledger-chart { height: 110px; }
-  .ledger-track { --plate-width: 6.25rem; --plate-gap: .4rem; }
+  .profile { padding-top: 3rem; }
+  .profile-tally { gap: 1rem; }
+  .profile-tally dd { font-size: 1.9rem; }
   .hero-inner { min-height: min(92vh, 720px); }
   .hero-image { object-position: 28% 70%; }
 }
@@ -1168,7 +1146,7 @@ body { --font-display: var(--font-barlow), 'Barlow Condensed', 'Arial Narrow', s
 @media (max-width: 480px) {
   .header-link { padding-inline: .55rem; font-size: .88rem; letter-spacing: .05em; }
   .map-button { width: 100%; }
-  .hero-mark { width: 3.5rem; height: 3.5rem; }
+  .hero-mark { height: 4.25rem; }
   .hero-topline { gap: .75rem; }
   .hero-kicker { font-size: .8rem; letter-spacing: .2em; }
 }

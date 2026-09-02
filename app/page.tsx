@@ -21,7 +21,7 @@ import {
   Sparkles,
   Utensils,
 } from 'lucide-react';
-import { PassLedger, rentalSummitCount } from '@/components/pass-ledger';
+import { StageProfile, highestSummit, summitCount } from '@/components/stage-profile';
 import { FullTourOverview, TourMap } from '@/components/tour-map';
 
 const mapsRoute = (origin: string, destination: string, waypoints: string[] = [], travelmode = 'driving') => {
@@ -402,7 +402,7 @@ export default function Home() {
       <header className="site-header">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-2 sm:px-8">
           <a href="#top" className="site-brand flex min-h-11 items-center gap-2.5">
-            <Image src="/brand/fondue-tour-mark.png" alt="" width={80} height={80} className="tour-mark size-10" />
+            <Image src="/brand/fondue-tour-crest.png" alt="" width={205} height={298} className="tour-mark" />
             <span className="brand-word"><span className="brand-long">Fondue Tour ’26</span><span className="brand-short">Fondue ’26</span></span>
           </a>
           <nav aria-label="Tour navigation" className="flex items-center gap-1 text-sm text-white/70">
@@ -425,7 +425,7 @@ export default function Home() {
         />
         <div className="hero-inner mx-auto max-w-6xl px-5 sm:px-8">
           <div className="hero-topline">
-            <Image src="/brand/fondue-tour-mark.png" alt="Fondue Tour crest" width={160} height={160} className="hero-mark" />
+            <Image src="/brand/fondue-tour-crest.png" alt="Fondue Tour crest" width={205} height={298} className="hero-mark" />
             <div className="hero-topline-copy">
               <span className="hero-kicker">Switzerland · France · Italy</span>
               <span className="hero-dates">Drive 9–13 September 2026 · Home 17 September</span>
@@ -439,8 +439,8 @@ export default function Home() {
 
           <ul className="hero-board" aria-label="Tour at a glance">
             <li><span className="hero-board-value">1,418<small>km</small></span><span className="hero-board-label">Zürich to Lugano</span></li>
-            <li><span className="hero-board-value">{rentalSummitCount}</span><span className="hero-board-label">Summits in your window</span></li>
-            <li><span className="hero-board-value">2,764<small>m</small></span><span className="hero-board-label">Col de l’Iseran, the high point</span></li>
+            <li><span className="hero-board-value">{summitCount}</span><span className="hero-board-label">Passes on your drive</span></li>
+            <li><span className="hero-board-value">{highestSummit.altitude.toLocaleString('en-GB')}<small>m</small></span><span className="hero-board-label">{highestSummit.name}, the high point</span></li>
             <li><span className="hero-board-value">13:00</span><span className="hero-board-label">Wed rendezvous, Col des Aravis</span></li>
           </ul>
         </div>
@@ -459,7 +459,7 @@ export default function Home() {
         </div>
       </section>
 
-      <PassLedger />
+      <StageProfile />
 
       <section id="crew" className="crew-section">
         <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
