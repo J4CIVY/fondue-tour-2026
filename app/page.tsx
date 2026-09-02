@@ -286,12 +286,12 @@ const days: Day[] = [
 ];
 
 const tourers = [
-  { name: 'Marco', portrait: '/brand/profiles/marco.webp' },
-  { name: 'Aris', portrait: '/brand/profiles/aris.webp' },
-  { name: 'Simon', portrait: '/brand/profiles/simon.webp' },
-  { name: 'Adrien', portrait: '/brand/profiles/adrien.webp' },
-  { name: 'Gabriele', portrait: '/brand/profiles/gabriele.webp' },
-  { name: 'Henry', portrait: '/brand/profiles/henry.webp' },
+  { name: 'Marco', portrait: '/brand/profiles/marco.webp', power: 'Cheese Saber', accent: '#f3bf2b' },
+  { name: 'Aris', portrait: '/brand/profiles/aris.webp', power: 'Fondue Forks', accent: '#4f81d9' },
+  { name: 'Simon', portrait: '/brand/profiles/simon.webp', power: 'Molten Shield', accent: '#dc6837' },
+  { name: 'Adrien', portrait: '/brand/profiles/adrien.webp', power: 'Raclette Edge', accent: '#83a77f' },
+  { name: 'Gabriele', portrait: '/brand/profiles/gabriele.webp', power: 'Alpine Reactor', accent: '#3ca6a0' },
+  { name: 'Henry', portrait: '/brand/profiles/henry.webp', power: 'Steam Lance', accent: '#c3ced6' },
 ];
 
 function SpriteIcon({ kind, index, label }: { kind: 'leg' | 'practical'; index: number; label: string }) {
@@ -445,20 +445,20 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="crew" className="crew-section border-b border-border bg-[#f7f4ed]">
+      <section id="crew" className="crew-section border-b border-white/10 bg-[#0c1d24] text-white">
         <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
           <div className="mb-7 flex items-end justify-between gap-5">
-            <div><p className="eyebrow">The crew</p><h2 className="text-3xl font-semibold tracking-[-.045em] sm:text-4xl">Meet the Tourers</h2></div>
-            <p className="hidden max-w-sm text-right text-sm leading-6 text-muted-foreground md:block">Six drivers. Three countries. One gloriously impractical route through the Alps.</p>
+            <div><p className="mb-2 text-xs font-semibold uppercase tracking-[.22em] text-[#f0bb4b]">Fondue Force</p><h2 className="text-3xl font-semibold tracking-[-.045em] sm:text-4xl">Select your Tourer</h2></div>
+            <p className="hidden max-w-sm text-right text-sm leading-6 text-white/55 md:block">Six drivers. Six cheese-powered abilities. One gloriously impractical route through the Alps.</p>
           </div>
           <div className="crew-scroller">
             {tourers.map((tourer) => (
               <article key={tourer.name} className="tourer-card">
-                <div className="tourer-portrait-wrap">
+                <div className="tourer-portrait-wrap" style={{ borderColor: tourer.accent }}>
                   <Image src={tourer.portrait} alt={`${tourer.name}, Fondue Tour 2026`} width={480} height={480} className="tourer-portrait" />
                 </div>
                 <p className="mt-3 text-center font-semibold">{tourer.name}</p>
-                <p className="mt-0.5 text-center font-mono text-[10px] uppercase tracking-[.18em] text-muted-foreground">Tourer ’26</p>
+                <p className="mt-1 text-center font-mono text-[10px] uppercase tracking-[.16em]" style={{ color: tourer.accent }}>{tourer.power}</p>
               </article>
             ))}
           </div>
