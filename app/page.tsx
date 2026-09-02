@@ -21,7 +21,7 @@ import {
   Sparkles,
   Utensils,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { PassLedger, rentalSummitCount } from '@/components/pass-ledger';
 import { FullTourOverview, TourMap } from '@/components/tour-map';
 
 const mapsRoute = (origin: string, destination: string, waypoints: string[] = [], travelmode = 'driving') => {
@@ -294,6 +294,16 @@ const tourers = [
   { name: 'Henry', portrait: '/brand/profiles/henry.webp', power: 'Steam Lance', accent: '#c3ced6' },
 ];
 
+// Distances and mapped driving times come from the generated OSRM route files in public/routes.
+const dayStats: Record<string, { km: number; hours: string; label?: string }> = {
+  tuesday: { km: 343, hours: '6h 36m' },
+  wednesday: { km: 460, hours: '6h 42m', label: 'from Zürich' },
+  thursday: { km: 341, hours: '5h 54m' },
+  friday: { km: 333, hours: '5h 30m', label: 'long option' },
+  saturday: { km: 241, hours: '4h 12m' },
+  sunday: { km: 43, hours: '0h 42m' },
+};
+
 function SpriteIcon({ kind, index, label }: { kind: 'leg' | 'practical'; index: number; label: string }) {
   const columns = kind === 'leg' ? 3 : 4;
   const column = index % columns;
@@ -325,23 +335,31 @@ function RouteButtonLink({ route }: { route: RouteButton }) {
 }
 
 function DayCard({ day }: { day: Day }) {
+  const stats = dayStats[day.id];
   return (
-    <article id={day.id} className="day-card scroll-mt-24 overflow-hidden rounded-3xl border border-border bg-card">
-      <div className="grid lg:grid-cols-[230px_1fr]">
-        <div className="day-panel p-6 text-white sm:p-8" style={{ backgroundColor: day.accent }}>
-          <div className="flex items-start justify-between gap-4 lg:block">
-            <p className="text-xs font-semibold uppercase tracking-[.22em] text-white/65">Day {day.number}</p>
+    <article id={day.id} className="day-card" style={{ '--day-color': day.accent } as React.CSSProperties}>
+      <div className="grid lg:grid-cols-[250px_1fr]">
+        <div className="day-plate">
+          <div className="day-plate-top">
+            <span className="day-plate-number">{day.number}</span>
             <SpriteIcon kind="leg" index={day.emblem} label={`${day.title} emblem`} />
           </div>
-          <p className="mt-3 text-4xl font-semibold tracking-[-.05em]">{day.weekday}<br />{day.date}</p>
-          <p className="mt-8 text-sm leading-5 text-white/70">{day.countries}</p>
+          <p className="day-plate-date">{day.weekday}<br />{day.date}</p>
+          <p className="day-plate-countries">{day.countries}</p>
+          {stats ? (
+            <dl className="day-plate-stats">
+              <div><dt>Distance</dt><dd>{stats.km}<span> km</span></dd></div>
+              <div><dt>Mapped</dt><dd>{stats.hours}</dd></div>
+              {stats.label ? <p className="day-plate-stat-note">{stats.label}</p> : null}
+            </dl>
+          ) : null}
         </div>
 
         <div className="min-w-0 p-6 sm:p-8">
           <div className="flex flex-col justify-between gap-5 xl:flex-row xl:items-start">
             <div className="min-w-0">
-              {day.badge ? <Badge variant="outline" className="mb-3 border-current/20" style={{ color: day.accent }}>{day.badge}</Badge> : null}
-              <h3 className="text-2xl font-semibold tracking-[-.035em] sm:text-3xl">{day.title}</h3>
+              {day.badge ? <span className="day-badge">{day.badge}</span> : null}
+              <h3 className="day-title">{day.title}</h3>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">{day.subtitle}</p>
             </div>
             <div className="grid shrink-0 gap-2 sm:grid-cols-2 xl:w-[390px] xl:grid-cols-1">
@@ -352,10 +370,10 @@ function DayCard({ day }: { day: Day }) {
           <ol className="route-line mt-9 grid gap-0 sm:grid-cols-3 xl:grid-cols-6">
             {day.stops.map(({ time, place, note, icon: Icon }) => (
               <li key={`${time}-${place}`} className="relative min-w-0 border-l border-border pb-6 pl-6 last:pb-0 sm:border-l-0 sm:border-t sm:pb-0 sm:pl-0 sm:pt-6">
-                <span className="route-dot" style={{ backgroundColor: day.accent, boxShadow: `0 0 0 1px ${day.accent}` }} />
-                <div className="flex items-center gap-1.5" style={{ color: day.accent }}>
+                <span className="route-dot" />
+                <div className="flex items-center gap-1.5 text-[var(--day-color)]">
                   {Icon ? <Icon className="size-3.5" /> : null}
-                  <p className="font-mono text-xs">{time}</p>
+                  <p className="stop-time">{time}</p>
                 </div>
                 <p className="mt-1 truncate font-semibold sm:whitespace-normal">{place}</p>
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">{note}</p>
@@ -364,8 +382,8 @@ function DayCard({ day }: { day: Day }) {
           </ol>
 
           {day.callout ? (
-            <div className="mt-8 flex gap-3 rounded-2xl bg-[#f1eee6] p-4 sm:p-5">
-              <day.callout.icon className="mt-0.5 size-4 shrink-0" style={{ color: day.accent }} />
+            <div className="day-callout">
+              <day.callout.icon className="mt-0.5 size-4 shrink-0 text-[var(--day-color)]" />
               <div>
                 <p className="text-sm font-semibold">{day.callout.title}</p>
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">{day.callout.copy}</p>
@@ -381,61 +399,57 @@ function DayCard({ day }: { day: Day }) {
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0c1d24]/92 text-white backdrop-blur-xl">
+      <header className="site-header">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-2 sm:px-8">
-          <a href="#top" className="site-brand flex min-h-11 items-center gap-2 font-semibold tracking-tight">
+          <a href="#top" className="site-brand flex min-h-11 items-center gap-2.5">
             <Image src="/brand/fondue-tour-mark.png" alt="" width={80} height={80} className="tour-mark size-10" />
-            <span className="brand-long">Fondue Tour ’26</span><span className="brand-short">Fondue ’26</span>
+            <span className="brand-word"><span className="brand-long">Fondue Tour ’26</span><span className="brand-short">Fondue ’26</span></span>
           </a>
           <nav aria-label="Tour navigation" className="flex items-center gap-1 text-sm text-white/70">
-            <a className="header-link rounded-full px-3 hover:bg-white/10 hover:text-white" href="#overview"><span className="nav-long">Full route</span><span className="nav-short">Route</span></a>
-            <a className="header-link rounded-full px-3 hover:bg-white/10 hover:text-white" href="#roadbook"><span className="nav-long">Roadbook</span><span className="nav-short">Days</span></a>
-            <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#essentials">Essentials</a>
-            <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#homeward">Homeward</a>
+            <a className="header-link" href="#overview"><span className="nav-long">Full route</span><span className="nav-short">Route</span></a>
+            <a className="header-link" href="#roadbook"><span className="nav-long">Roadbook</span><span className="nav-short">Days</span></a>
+            <a className="header-link header-link-wide" href="#passes">Passes</a>
+            <a className="header-link header-link-wide" href="#essentials">Essentials</a>
           </nav>
         </div>
       </header>
 
-      <section id="top" className="tour-hero relative overflow-hidden bg-[#10272f] text-white">
+      <section id="top" className="tour-hero">
         <Image
-          src="/og.png"
+          src="/brand/hero-road.jpg"
           alt="Silver convertible on a winding Alpine road at sunrise"
           width={1731}
-          height={909}
+          height={589}
+          priority
           className="hero-image"
         />
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
-          <div className="relative z-10">
-            <div className="mb-5 flex items-center gap-3">
-              <Image src="/brand/fondue-tour-mark.png" alt="Fondue Tour crest" width={160} height={160} className="hero-mark" />
-              <Badge className="bg-[#f0bb4b] text-[#10272f]">8–17 September 2026</Badge>
+        <div className="hero-inner mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="hero-topline">
+            <Image src="/brand/fondue-tour-mark.png" alt="Fondue Tour crest" width={160} height={160} className="hero-mark" />
+            <div className="hero-topline-copy">
+              <span className="hero-kicker">Switzerland · France · Italy</span>
+              <span className="hero-dates">Drive 9–13 September 2026 · Home 17 September</span>
             </div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[.24em] text-[#9dc1b3]">Switzerland · France · Italy</p>
-            <h1 className="max-w-3xl text-5xl font-semibold leading-[.96] tracking-[-.055em] sm:text-7xl">Five days.<br />One Alpine line.</h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-white/68 sm:text-lg">Your pocket roadbook for every pass, rendezvous, fuel stop and hotel — with restart navigation, open maps and TomTom tracks.</p>
           </div>
+          <h1 className="hero-title">
+            <span className="hero-title-line">Five days.</span>
+            <span className="hero-title-line hero-title-accent">One Alpine line.</span>
+          </h1>
+          <p className="hero-lede">Your pocket roadbook for every pass, rendezvous, fuel stop and hotel, with restart navigation, open maps and TomTom tracks.</p>
 
-          <div className="relative z-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/12 bg-white/12">
-            {[
-              ['Meet', 'Wed 09 · 13:00', Map],
-              ['Start', 'Col des Aravis', Mountain],
-              ['Rental', 'Zürich → Lugano', CarFront],
-              ['Return', 'Sun 13 · 10:00', ShieldCheck],
-            ].map(([label, value, Icon]) => (
-              <div key={String(label)} className="bg-[#10272f]/90 p-4 sm:p-5">
-                <Icon className="mb-5 size-4 text-[#f0bb4b]" />
-                <p className="text-[11px] uppercase tracking-[.16em] text-white/45">{label as string}</p>
-                <p className="mt-1 font-medium">{value as string}</p>
-              </div>
-            ))}
-          </div>
+          <ul className="hero-board" aria-label="Tour at a glance">
+            <li><span className="hero-board-value">1,418<small>km</small></span><span className="hero-board-label">Zürich to Lugano</span></li>
+            <li><span className="hero-board-value">{rentalSummitCount}</span><span className="hero-board-label">Summits in your window</span></li>
+            <li><span className="hero-board-value">2,764<small>m</small></span><span className="hero-board-label">Col de l’Iseran, the high point</span></li>
+            <li><span className="hero-board-value">13:00</span><span className="hero-board-label">Wed rendezvous, Col des Aravis</span></li>
+          </ul>
         </div>
       </section>
 
-      <section className="border-b border-border bg-[#edf2eb]" aria-label="Personal arrival plan">
-        <div className="mx-auto grid max-w-6xl gap-5 px-5 py-6 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center">
+      <section className="arrival-strip" aria-label="Personal arrival plan">
+        <div className="mx-auto grid max-w-6xl gap-5 px-5 py-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div className="flex gap-4">
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#b84a32] shadow-sm"><Plane className="size-4" /></span>
+            <span className="arrival-icon"><Plane className="size-4" /></span>
             <div>
               <p className="font-semibold">Your runway to the rendezvous</p>
               <p className="mt-1 text-sm leading-6 text-muted-foreground">Tue 8: Gatwick 17:05 → Zürich 19:50 · Car 21:30 · ibis overnight · Depart 06:30–06:45</p>
@@ -445,20 +459,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="crew" className="crew-section border-b border-white/10 bg-[#0c1d24] text-white">
+      <PassLedger />
+
+      <section id="crew" className="crew-section">
         <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
           <div className="mb-7 flex items-end justify-between gap-5">
-            <div><p className="mb-2 text-xs font-semibold uppercase tracking-[.22em] text-[#f0bb4b]">Fondue Force</p><h2 className="text-3xl font-semibold tracking-[-.045em] sm:text-4xl">Select your Tourer</h2></div>
+            <div><p className="eyebrow eyebrow-light">Fondue Force</p><h2 className="display-title">Select your tourer</h2></div>
             <p className="hidden max-w-sm text-right text-sm leading-6 text-white/55 md:block">Six drivers. Six cheese-powered abilities. One gloriously impractical route through the Alps.</p>
           </div>
           <div className="crew-scroller">
-            {tourers.map((tourer) => (
-              <article key={tourer.name} className="tourer-card">
-                <div className="tourer-portrait-wrap" style={{ borderColor: tourer.accent }}>
+            {tourers.map((tourer, index) => (
+              <article key={tourer.name} className="tourer-card" style={{ '--tourer-color': tourer.accent } as React.CSSProperties}>
+                <div className="tourer-portrait-wrap">
                   <Image src={tourer.portrait} alt={`${tourer.name}, Fondue Tour 2026`} width={480} height={480} className="tourer-portrait" />
+                  <span className="tourer-number">{String(index + 1).padStart(2, '0')}</span>
                 </div>
-                <p className="mt-3 text-center font-semibold">{tourer.name}</p>
-                <p className="mt-1 text-center font-mono text-[10px] uppercase tracking-[.16em]" style={{ color: tourer.accent }}>{tourer.power}</p>
+                <p className="tourer-name">{tourer.name}</p>
+                <p className="tourer-power">{tourer.power}</p>
               </article>
             ))}
           </div>
@@ -467,9 +484,9 @@ export default function Home() {
 
       <FullTourOverview />
 
-      <nav className="sticky top-[61px] z-20 overflow-x-auto border-b border-border bg-[#f7f4ed]/92 px-5 py-3 backdrop-blur-xl sm:px-8" aria-label="Jump to tour day">
+      <nav className="day-strip" aria-label="Jump to tour day">
         <div className="mx-auto flex w-max max-w-6xl gap-2">
-          {days.map((day) => <a key={day.id} href={`#${day.id}`} className="day-chip"><span className="font-semibold">{day.weekday}</span><span className="text-muted-foreground">{day.date.split(' ')[0]}</span></a>)}
+          {days.map((day) => <a key={day.id} href={`#${day.id}`} className="day-chip" style={{ '--day-color': day.accent } as React.CSSProperties}><span className="day-chip-dot" /><span className="font-semibold">{day.weekday}</span><span className="text-muted-foreground">{day.date.split(' ')[0]}</span></a>)}
         </div>
       </nav>
 
@@ -477,23 +494,23 @@ export default function Home() {
 
       <section id="roadbook" className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
         <div className="mb-8 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
-          <div><p className="eyebrow">Roadbook</p><h2 className="section-title">The tour, day by day</h2></div>
+          <div><p className="eyebrow">Roadbook</p><h2 className="display-title">The tour, day by day</h2></div>
           <p className="max-w-sm text-sm leading-6 text-muted-foreground">Times are the organiser’s plan. Google may recalculate around closures; live pass status remains the final call.</p>
         </div>
         <div className="space-y-6">{days.map((day) => <DayCard key={day.id} day={day} />)}</div>
       </section>
 
-      <section id="essentials" className="bg-[#10272f] text-white">
+      <section id="essentials" className="essentials">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
           <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[.22em] text-[#f0bb4b]">Before every departure</p>
-              <h2 className="text-4xl font-semibold tracking-[-.05em] sm:text-5xl">The pocket check</h2>
+              <p className="eyebrow eyebrow-light">Before every departure</p>
+              <h2 className="display-title display-title-lg">The pocket check</h2>
               <p className="mt-5 max-w-md text-sm leading-6 text-white/62">The mountain makes the final decision. Check conditions before the keys turn, then keep the day flexible.</p>
-              <a href="https://alpen-paesse.ch/en/" target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#f0bb4b] px-4 py-3 text-sm font-semibold text-[#10272f] hover:bg-[#ffd16a]">Check Alpine passes <ArrowUpRight className="size-4" /></a>
+              <a href="https://alpen-paesse.ch/en/" target="_blank" rel="noreferrer" className="map-button map-button-gold mt-7">Check Alpine passes <ArrowUpRight className="size-4" /></a>
             </div>
 
-            <div className="grid gap-px overflow-hidden rounded-2xl border border-white/12 bg-white/12 sm:grid-cols-2">
+            <div className="essentials-grid">
               {[
                 ['Pass status & weather', 'Recheck every morning and again before the modular Friday route.', 3],
                 ['Swiss vignette', 'Your Swiss rental should have it. Verify at pickup; do not buy a duplicate.', 6],
@@ -502,7 +519,7 @@ export default function Home() {
                 ['Fuel rhythm', 'Use the planned Aosta, Bourg-Saint-Maurice, Ulrichen and Stampa stops.', 0],
                 ['Documents offline', 'Licence, passport, rental agreement, insurance and return evidence.', 6],
               ].map(([title, copy, iconIndex]) => (
-                <div key={String(title)} className="bg-[#10272f] p-5 sm:p-6">
+                <div key={String(title)} className="essentials-cell">
                   <div className="mb-5"><SpriteIcon kind="practical" index={iconIndex as number} label={`${title as string} icon`} /></div>
                   <p className="font-semibold">{title as string}</p>
                   <p className="mt-2 text-xs leading-5 text-white/55">{copy as string}</p>
@@ -514,11 +531,11 @@ export default function Home() {
       </section>
 
       <section id="homeward" className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-        <div className="rounded-3xl bg-[#e4ebe3] p-6 sm:p-10">
+        <div className="homeward-card">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <p className="eyebrow">The way home</p>
-              <h2 className="text-3xl font-semibold tracking-[-.045em] sm:text-5xl">Bellinzona → Malpensa → Gatwick</h2>
+              <h2 className="display-title">Bellinzona → Malpensa → Gatwick</h2>
               <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground">Thursday 17 September. Travel from Bellinzona to Malpensa Terminal 2, arrive around 14:15, then fly EZY8306 at 16:50. Scheduled Gatwick arrival: 17:50 UK time.</p>
             </div>
             <a href={mapLinks.bellinzonaMalpensa} target="_blank" rel="noreferrer" className="map-button map-button-dark">Open transit route <ArrowUpRight className="size-4" /></a>
@@ -531,7 +548,7 @@ export default function Home() {
               ['London Gatwick', 'Arrive 17:50 UK'],
             ].map(([place, note], index) => (
               <div key={place} className="contents">
-                <div className="rounded-2xl bg-white/70 p-4"><p className="font-semibold">{place}</p><p className="mt-1 text-xs text-muted-foreground">{note}</p></div>
+                <div className="homeward-step"><p className="font-semibold">{place}</p><p className="mt-1 text-xs text-muted-foreground">{note}</p></div>
                 {index < 2 ? <ArrowRight className="mx-auto hidden size-4 text-muted-foreground sm:block" /> : null}
               </div>
             ))}
@@ -539,7 +556,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-border px-5 py-8 sm:px-8">
+      <footer className="site-footer">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>Fondue Tour 2026 · Personal roadbook</p>
           <p className="flex items-center gap-1.5"><Check className="size-3.5 text-[#396b67]" /> Routes assembled from the organiser’s 31 Aug roadbook</p>

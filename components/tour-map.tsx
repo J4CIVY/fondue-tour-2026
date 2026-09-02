@@ -132,21 +132,21 @@ export function FullTourOverview() {
   const distance = route ? Math.round(route.properties.distanceMetres / 1000).toLocaleString('en-GB') : '1,418';
 
   return (
-    <section id="overview" className="bg-[#f7f4ed] px-5 py-14 sm:px-8 sm:py-20">
+    <section id="overview" className="bg-background px-5 py-14 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="eyebrow">Your complete drive</p>
-            <h2 className="section-title">Zürich to Lugano,<br className="hidden sm:block" /> the beautiful way.</h2>
+            <h2 className="display-title">Zürich to Lugano,<br className="hidden sm:block" /> the beautiful way.</h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground">The full rental route uses Friday’s longer San Bernardino option. Switch to the shorter Albula route in the daily navigator if weather or timing demands it.</p>
           </div>
           <div className="flex flex-wrap gap-2 lg:justify-end">
-            <span className="rounded-full bg-[#10272f] px-4 py-2 text-sm font-semibold text-white">≈ {distance} km</span>
-            <span className="rounded-full bg-[#e4ebe3] px-4 py-2 text-sm font-semibold">5 driving days</span>
+            <span className="stat-pill stat-pill-dark">≈ {distance} km</span>
+            <span className="stat-pill stat-pill-green">5 driving days</span>
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-border bg-[#fffdf8] shadow-[0_24px_60px_rgb(18_38_45_/_8%)]">
+        <div className="map-panel">
           <div className="grid min-w-0 lg:grid-cols-[minmax(260px,.54fr)_minmax(0,1.46fr)]">
             <div className="min-w-0 border-b border-border p-5 sm:p-6 lg:border-b-0 lg:border-r">
               <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-muted-foreground">Route at a glance</p>
@@ -164,7 +164,7 @@ export function FullTourOverview() {
                       <span className="block text-xs font-semibold">{feature.properties.label}</span>
                       <span className="mt-0.5 block text-[11px] leading-4 text-muted-foreground">{feature.properties.start} → {feature.properties.end}</span>
                     </span>
-                    <span className="font-mono text-[10px] text-muted-foreground">{Math.round(feature.properties.distanceMetres / 1000)} km</span>
+                    <span className="leg-km">{Math.round(feature.properties.distanceMetres / 1000)} km</span>
                   </div>
                 ))}
               </div>
@@ -182,8 +182,8 @@ export function FullTourOverview() {
                   <div><MapPin className="mx-auto size-7 text-[#b84a32]" /><p className="mt-3 font-semibold">The overview map could not load.</p><p className="mt-1 text-xs text-muted-foreground">The full GPX and daily routes still work.</p></div>
                 </div>
               ) : null}
-              <div ref={mapElement} className="absolute inset-0 z-0" aria-label="OpenStreetMap overview of the full Fondue Tour route" />
-              <div className="pointer-events-none absolute bottom-4 left-4 z-[500] max-w-[260px] rounded-xl bg-[#10272f]/90 px-3 py-2 text-[10px] leading-4 text-white/75 shadow-lg backdrop-blur">
+              <div ref={mapElement} className="map-canvas absolute inset-0 z-0" aria-label="OpenStreetMap overview of the full Fondue Tour route" />
+              <div className="map-note">
                 Full route shown with Friday’s longer option. Live closures still take precedence.
               </div>
             </div>
@@ -312,12 +312,12 @@ export function TourMap() {
   const hours = stats ? `${Math.floor(stats.durationSeconds / 3600)}h ${Math.round((stats.durationSeconds % 3600) / 60)}m mapped` : 'Loading time';
 
   return (
-    <section id="navigator" className="border-y border-border bg-[#e8eee7]">
+    <section id="navigator" className="border-y border-border bg-[#e8ede4]">
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
         <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="eyebrow">Route navigator</p>
-            <h2 className="section-title">Restart from any stop</h2>
+            <h2 className="display-title">Restart from any stop</h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground">
               Pick a day, then tap the stop you are currently at. The Google Maps link carries forward every remaining waypoint; the companion GPX preserves the remaining TomTom track.
             </p>
@@ -341,19 +341,19 @@ export function TourMap() {
           ))}
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-border bg-[#fffdf8] shadow-[0_24px_60px_rgb(18_38_45_/_8%)]">
+        <div className="map-panel">
           <div className="grid min-w-0 lg:grid-cols-[minmax(300px,.72fr)_minmax(0,1.28fr)]">
             <div className="min-w-0 border-b border-border lg:border-b-0 lg:border-r">
               <div className="border-b border-border p-5 sm:p-6">
-                <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[.16em]" style={{ color: activePlan.color }}>
+                <div className="eyebrow mb-3 flex items-center gap-2" style={{ color: activePlan.color }}>
                   <Route className="size-4" /> {activePlan.day}
                 </div>
-                <h3 className="text-xl font-semibold tracking-[-.03em]">{activePlan.title}</h3>
+                <h3 className="day-title" style={{ fontSize: '1.7rem' }}>{activePlan.title}</h3>
                 <p className="mt-2 text-xs leading-5 text-muted-foreground">{activePlan.subtitle}</p>
-                <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-medium text-muted-foreground">
-                  <span className="rounded-full bg-[#f1eee6] px-3 py-1.5">{distance}</span>
-                  <span className="rounded-full bg-[#f1eee6] px-3 py-1.5">{hours}</span>
-                  <span className="rounded-full bg-[#f1eee6] px-3 py-1.5">{activePlan.stops.length} stops</span>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span className="stat-pill">{distance}</span>
+                  <span className="stat-pill">{hours}</span>
+                  <span className="stat-pill">{activePlan.stops.length} stops</span>
                 </div>
                 <a href={`/gpx/${activePlan.id}.gpx`} download className="compact-download mt-4 inline-flex items-center gap-2 text-xs font-semibold hover:underline" style={{ color: activePlan.color }}>
                   <Download className="size-3.5" /> Download this full GPX
@@ -397,8 +397,8 @@ export function TourMap() {
                   <div><MapPin className="mx-auto size-7 text-[#b84a32]" /><p className="mt-3 font-semibold">The map could not load.</p><p className="mt-1 text-xs text-muted-foreground">The restart links and GPX downloads still work.</p></div>
                 </div>
               ) : null}
-              <div ref={mapElement} className="absolute inset-0 z-0" aria-label={`OpenStreetMap route for ${activePlan.title}`} />
-              <div className="pointer-events-none absolute bottom-4 left-4 z-[500] max-w-[250px] rounded-xl bg-[#10272f]/90 px-3 py-2 text-[10px] leading-4 text-white/75 shadow-lg backdrop-blur">
+              <div ref={mapElement} className="map-canvas absolute inset-0 z-0" aria-label={`OpenStreetMap route for ${activePlan.title}`} />
+              <div className="map-note">
                 Indicative OSRM route. Check closures and pass status before driving.
               </div>
             </div>
