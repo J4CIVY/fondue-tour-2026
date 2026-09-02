@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://fondue-tour-2026.jayfarei.chatgpt.site'),
   title: 'Fondue Tour 2026 — Alpine Roadbook',
   description: 'A mobile roadbook for the 2026 Fondue Tour through Switzerland, France and Italy.',
   openGraph: {
