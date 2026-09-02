@@ -1,9 +1,9 @@
 import type { LucideIcon } from 'lucide-react';
+import Image from 'next/image';
 import {
   AlertTriangle,
   ArrowRight,
   ArrowUpRight,
-  Backpack,
   Bath,
   BedDouble,
   CableCar,
@@ -122,6 +122,7 @@ type RouteButton = { label: string; href: string; note?: string };
 type Stop = { time: string; place: string; note: string; icon?: LucideIcon };
 type Day = {
   id: string;
+  emblem: number;
   number: string;
   weekday: string;
   date: string;
@@ -138,6 +139,7 @@ type Day = {
 const days: Day[] = [
   {
     id: 'tuesday',
+    emblem: 0,
     number: '00',
     weekday: 'Tue',
     date: '08 Sep',
@@ -160,6 +162,7 @@ const days: Day[] = [
   },
   {
     id: 'wednesday',
+    emblem: 1,
     number: '01',
     weekday: 'Wed',
     date: '09 Sep',
@@ -183,6 +186,7 @@ const days: Day[] = [
   },
   {
     id: 'thursday',
+    emblem: 2,
     number: '02',
     weekday: 'Thu',
     date: '10 Sep',
@@ -207,6 +211,7 @@ const days: Day[] = [
   },
   {
     id: 'friday',
+    emblem: 3,
     number: '03',
     weekday: 'Fri',
     date: '11 Sep',
@@ -233,6 +238,7 @@ const days: Day[] = [
   },
   {
     id: 'saturday',
+    emblem: 4,
     number: '04',
     weekday: 'Sat',
     date: '12 Sep',
@@ -256,6 +262,7 @@ const days: Day[] = [
   },
   {
     id: 'sunday',
+    emblem: 5,
     number: '05',
     weekday: 'Sun',
     date: '13 Sep',
@@ -278,6 +285,33 @@ const days: Day[] = [
   },
 ];
 
+const tourers = [
+  { name: 'Marco', portrait: '/brand/profiles/marco.webp' },
+  { name: 'Aris', portrait: '/brand/profiles/aris.webp' },
+  { name: 'Simon', portrait: '/brand/profiles/simon.webp' },
+  { name: 'Adrien', portrait: '/brand/profiles/adrien.webp' },
+  { name: 'Gabriele', portrait: '/brand/profiles/gabriele.webp' },
+  { name: 'Henry', portrait: '/brand/profiles/henry.webp' },
+];
+
+function SpriteIcon({ kind, index, label }: { kind: 'leg' | 'practical'; index: number; label: string }) {
+  const columns = kind === 'leg' ? 3 : 4;
+  const column = index % columns;
+  const row = Math.floor(index / columns);
+  const x = columns === 3 ? column * 50 : column * (100 / 3);
+
+  return (
+    <>
+      <span
+        className={`sprite-icon sprite-icon-${kind}`}
+        style={{ backgroundPosition: `${x}% ${row * 100}%` }}
+        aria-hidden="true"
+      />
+      <span className="sr-only">{label}</span>
+    </>
+  );
+}
+
 function RouteButtonLink({ route }: { route: RouteButton }) {
   return (
     <a href={route.href} target="_blank" rel="noreferrer" className="route-button">
@@ -295,7 +329,10 @@ function DayCard({ day }: { day: Day }) {
     <article id={day.id} className="day-card scroll-mt-24 overflow-hidden rounded-3xl border border-border bg-card">
       <div className="grid lg:grid-cols-[230px_1fr]">
         <div className="day-panel p-6 text-white sm:p-8" style={{ backgroundColor: day.accent }}>
-          <p className="text-xs font-semibold uppercase tracking-[.22em] text-white/65">Day {day.number}</p>
+          <div className="flex items-start justify-between gap-4 lg:block">
+            <p className="text-xs font-semibold uppercase tracking-[.22em] text-white/65">Day {day.number}</p>
+            <SpriteIcon kind="leg" index={day.emblem} label={`${day.title} emblem`} />
+          </div>
           <p className="mt-3 text-4xl font-semibold tracking-[-.05em]">{day.weekday}<br />{day.date}</p>
           <p className="mt-8 text-sm leading-5 text-white/70">{day.countries}</p>
         </div>
@@ -347,7 +384,7 @@ export default function Home() {
       <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0c1d24]/92 text-white backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-2 sm:px-8">
           <a href="#top" className="site-brand flex min-h-11 items-center gap-2 font-semibold tracking-tight">
-            <span className="grid size-8 place-items-center rounded-full bg-[#f0bb4b] text-[#10272f]"><Mountain className="size-4" /></span>
+            <Image src="/brand/fondue-tour-mark.png" alt="" width={80} height={80} className="tour-mark size-10" />
             <span className="brand-long">Fondue Tour ’26</span><span className="brand-short">Fondue ’26</span>
           </a>
           <nav aria-label="Tour navigation" className="flex items-center gap-1 text-sm text-white/70">
@@ -360,14 +397,19 @@ export default function Home() {
       </header>
 
       <section id="top" className="tour-hero relative overflow-hidden bg-[#10272f] text-white">
-        <img
+        <Image
           src="/og.png"
           alt="Silver convertible on a winding Alpine road at sunrise"
+          width={1731}
+          height={909}
           className="hero-image"
         />
         <div className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-14 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
           <div className="relative z-10">
-            <Badge className="mb-5 bg-[#f0bb4b] text-[#10272f]">8–17 September 2026</Badge>
+            <div className="mb-5 flex items-center gap-3">
+              <Image src="/brand/fondue-tour-mark.png" alt="Fondue Tour crest" width={160} height={160} className="hero-mark" />
+              <Badge className="bg-[#f0bb4b] text-[#10272f]">8–17 September 2026</Badge>
+            </div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[.24em] text-[#9dc1b3]">Switzerland · France · Italy</p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-[.96] tracking-[-.055em] sm:text-7xl">Five days.<br />One Alpine line.</h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-white/68 sm:text-lg">Your pocket roadbook for every pass, rendezvous, fuel stop and hotel — with restart navigation, open maps and TomTom tracks.</p>
@@ -403,6 +445,26 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="crew" className="crew-section border-b border-border bg-[#f7f4ed]">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
+          <div className="mb-7 flex items-end justify-between gap-5">
+            <div><p className="eyebrow">The crew</p><h2 className="text-3xl font-semibold tracking-[-.045em] sm:text-4xl">Meet the Tourers</h2></div>
+            <p className="hidden max-w-sm text-right text-sm leading-6 text-muted-foreground md:block">Six drivers. Three countries. One gloriously impractical route through the Alps.</p>
+          </div>
+          <div className="crew-scroller">
+            {tourers.map((tourer) => (
+              <article key={tourer.name} className="tourer-card">
+                <div className="tourer-portrait-wrap">
+                  <Image src={tourer.portrait} alt={`${tourer.name}, Fondue Tour 2026`} width={480} height={480} className="tourer-portrait" />
+                </div>
+                <p className="mt-3 text-center font-semibold">{tourer.name}</p>
+                <p className="mt-0.5 text-center font-mono text-[10px] uppercase tracking-[.18em] text-muted-foreground">Tourer ’26</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <FullTourOverview />
 
       <nav className="sticky top-[61px] z-20 overflow-x-auto border-b border-border bg-[#f7f4ed]/92 px-5 py-3 backdrop-blur-xl sm:px-8" aria-label="Jump to tour day">
@@ -433,15 +495,15 @@ export default function Home() {
 
             <div className="grid gap-px overflow-hidden rounded-2xl border border-white/12 bg-white/12 sm:grid-cols-2">
               {[
-                ['Pass status & weather', 'Recheck every morning and again before the modular Friday route.', Mountain],
-                ['Swiss vignette', 'Your Swiss rental should have it. Verify at pickup; do not buy a duplicate.', ShieldCheck],
-                ['Printed voucher', 'Gelmerbahn: arrive 15 minutes early and allow the walk from parking.', CableCar],
-                ['Swimwear', 'Pools, saunas or wellness areas feature at most overnight stops.', Bath],
-                ['Fuel rhythm', 'Use the planned Aosta, Bourg-Saint-Maurice, Ulrichen and Stampa stops.', Fuel],
-                ['Documents offline', 'Licence, passport, rental agreement, insurance and return evidence.', Backpack],
-              ].map(([title, copy, Icon]) => (
+                ['Pass status & weather', 'Recheck every morning and again before the modular Friday route.', 3],
+                ['Swiss vignette', 'Your Swiss rental should have it. Verify at pickup; do not buy a duplicate.', 6],
+                ['Printed voucher', 'Gelmerbahn: arrive 15 minutes early and allow the walk from parking.', 7],
+                ['Swimwear', 'Pools, saunas or wellness areas feature at most overnight stops.', 5],
+                ['Fuel rhythm', 'Use the planned Aosta, Bourg-Saint-Maurice, Ulrichen and Stampa stops.', 0],
+                ['Documents offline', 'Licence, passport, rental agreement, insurance and return evidence.', 6],
+              ].map(([title, copy, iconIndex]) => (
                 <div key={String(title)} className="bg-[#10272f] p-5 sm:p-6">
-                  <Icon className="mb-5 size-5 text-[#f0bb4b]" />
+                  <div className="mb-5"><SpriteIcon kind="practical" index={iconIndex as number} label={`${title as string} icon`} /></div>
                   <p className="font-semibold">{title as string}</p>
                   <p className="mt-2 text-xs leading-5 text-white/55">{copy as string}</p>
                 </div>

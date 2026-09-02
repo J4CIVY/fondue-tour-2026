@@ -27,6 +27,10 @@ export const metadata: Metadata = {
     description: 'Five days. One Alpine line. Restart navigation and TomTom routes included.',
     images: ['/og.png'],
   },
+  icons: {
+    icon: '/brand/fondue-tour-mark.png',
+    apple: '/brand/fondue-tour-mark.png',
+  },
 };
 
 export default function RootLayout({
