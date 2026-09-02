@@ -24,6 +24,7 @@ const xml = (value) =>
     .replaceAll("'", '&apos;');
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const builtRoutes = new Map();
 
 function squaredSegmentDistance(point, start, end) {
   let [x, y] = start;
@@ -140,6 +141,7 @@ for (const plan of plans) {
   process.stdout.write(`Building ${plan.id}... `);
   const route = await routeGeometry(plan);
   const geometry = simplifyGeometry(route.geometry.coordinates);
+  builtRoutes.set(plan.id, { plan, route, geometry });
   const indexes = nearestGeometryIndexes(plan.stops, geometry);
   const featureCollection = {
     type: 'FeatureCollection',
@@ -179,8 +181,52 @@ for (const plan of plans) {
   await sleep(350);
 }
 
+const fullRouteIds = [
+  'wednesday-personal',
+  'thursday-loop',
+  'friday-san-bernardino',
+  'saturday-ascona',
+  'sunday-return',
+];
+const fullLegs = fullRouteIds.map((id) => builtRoutes.get(id));
+const fullStops = fullLegs.flatMap(({ plan }, legIndex) => plan.stops.slice(legIndex ? 1 : 0));
+const fullGeometry = fullLegs.flatMap(({ geometry }, legIndex) => geometry.slice(legIndex ? 1 : 0));
+const fullPlan = {
+  id: 'full-tour',
+  day: 'Wed 09 – Sun 13',
+  title: 'Full rental route · Zürich to Lugano',
+  color: '#b84a32',
+  stops: fullStops,
+};
+const fullFeatureCollection = {
+  type: 'FeatureCollection',
+  properties: {
+    id: fullPlan.id,
+    distanceMetres: fullLegs.reduce((sum, { route }) => sum + route.distance, 0),
+    durationSeconds: fullLegs.reduce((sum, { route }) => sum + route.duration, 0),
+    generatedBy: 'OSRM using OpenStreetMap data',
+  },
+  features: fullLegs.map(({ plan, geometry, route }) => ({
+    type: 'Feature',
+    properties: {
+      kind: 'route',
+      id: plan.id,
+      label: plan.day,
+      title: plan.title,
+      color: plan.color,
+      distanceMetres: route.distance,
+      start: plan.stops[0].name,
+      end: plan.stops.at(-1).name,
+    },
+    geometry: { type: 'LineString', coordinates: geometry },
+  })),
+};
+
+await writeFile(path.join(geoDir, 'full-tour.geojson'), `${JSON.stringify(fullFeatureCollection)}\n`);
+await writeFile(path.join(gpxDir, 'full-tour.gpx'), gpxDocument(fullPlan, fullStops, fullGeometry));
+
 const zipPath = path.join(downloadDir, 'fondue-tour-2026-tomtom-gpx.zip');
 await rm(zipPath, { force: true });
-const zip = spawnSync('zip', ['-q', '-j', zipPath, ...plans.map((plan) => path.join(gpxDir, `${plan.id}.gpx`))]);
+const zip = spawnSync('zip', ['-q', '-j', zipPath, path.join(gpxDir, 'full-tour.gpx'), ...plans.map((plan) => path.join(gpxDir, `${plan.id}.gpx`))]);
 if (zip.status !== 0) throw new Error(`zip failed: ${zip.stderr?.toString()}`);
-console.log(`Wrote ${plans.length} route maps, full GPX files, continuation GPX files, and ${zipPath}`);
+console.log(`Wrote the full tour, ${plans.length} route maps, GPX continuations, and ${zipPath}`);

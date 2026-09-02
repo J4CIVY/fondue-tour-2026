@@ -22,7 +22,7 @@ import {
   Utensils,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { TourMap } from '@/components/tour-map';
+import { FullTourOverview, TourMap } from '@/components/tour-map';
 
 const mapsRoute = (origin: string, destination: string, waypoints: string[] = [], travelmode = 'driving') => {
   const params = new URLSearchParams({ api: '1', origin, destination, travelmode });
@@ -351,7 +351,7 @@ export default function Home() {
             Fondue Tour ’26
           </a>
           <nav aria-label="Tour navigation" className="flex items-center gap-1 text-sm text-white/70">
-            <a className="rounded-full px-3 py-2 hover:bg-white/10 hover:text-white" href="#navigator">Map</a>
+            <a className="rounded-full px-3 py-2 hover:bg-white/10 hover:text-white" href="#overview">Full route</a>
             <a className="rounded-full px-3 py-2 hover:bg-white/10 hover:text-white" href="#roadbook">Roadbook</a>
             <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#essentials">Essentials</a>
             <a className="hidden rounded-full px-3 py-2 hover:bg-white/10 hover:text-white sm:block" href="#homeward">Homeward</a>
@@ -402,6 +402,8 @@ export default function Home() {
           <a href={mapLinks.personalMeet} target="_blank" rel="noreferrer" className="map-button map-button-dark">Navigate to meetup <ArrowUpRight className="size-4" /></a>
         </div>
       </section>
+
+      <FullTourOverview />
 
       <nav className="sticky top-[61px] z-20 overflow-x-auto border-b border-border bg-[#f7f4ed]/92 px-5 py-3 backdrop-blur-xl sm:px-8" aria-label="Jump to tour day">
         <div className="mx-auto flex w-max max-w-6xl gap-2">

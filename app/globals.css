@@ -247,6 +247,17 @@ body { background: var(--background); }
 
 .route-restart-gpx:hover { background: #10272f; color: #fff; }
 
+.full-route-leg {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: .7rem;
+  border-bottom: 1px solid rgb(216 215 208 / 70%);
+  padding: .7rem .25rem;
+}
+
+.full-route-leg:last-child { border-bottom: 0; }
+
 .leaflet-container { font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif; background: #dfe8e0; }
 .leaflet-control-attribution { font-size: 9px; }
 .leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: 0 14px 45px rgb(18 38 45 / 18%); }

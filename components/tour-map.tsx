@@ -30,7 +30,163 @@ type RouteGeoJson = {
   }>;
 };
 
+type FullRouteGeoJson = {
+  properties: { distanceMetres: number; durationSeconds: number };
+  features: Array<{
+    properties: {
+      id: string;
+      label: string;
+      title: string;
+      color: string;
+      distanceMetres: number;
+      start: string;
+      end: string;
+    };
+    geometry: { coordinates: Array<[number, number]> };
+  }>;
+};
+
 const plans = routePlans as RoutePlan[];
+
+export function FullTourOverview() {
+  const mapElement = useRef<HTMLDivElement>(null);
+  const [route, setRoute] = useState<FullRouteGeoJson | null>(null);
+  const [mapError, setMapError] = useState(false);
+
+  useEffect(() => {
+    let disposed = false;
+    let map: import('leaflet').Map | undefined;
+
+    async function renderMap() {
+      if (!mapElement.current) return;
+
+      try {
+        const [L, response] = await Promise.all([
+          import('leaflet'),
+          fetch('/routes/full-tour.geojson'),
+        ]);
+        if (!response.ok) throw new Error('Full route was not available');
+        const geojson = await response.json() as FullRouteGeoJson;
+        if (disposed || !mapElement.current) return;
+
+        map = L.map(mapElement.current, { scrollWheelZoom: false, zoomControl: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+        }).addTo(map);
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        const bounds = L.latLngBounds([]);
+        geojson.features.forEach((feature, legIndex) => {
+          const coordinates = feature.geometry.coordinates.map(([lon, lat]) => [lat, lon] as [number, number]);
+          const line = L.polyline(coordinates, {
+            color: feature.properties.color,
+            weight: 5,
+            opacity: 0.92,
+            lineJoin: 'round',
+          }).bindTooltip(`${feature.properties.label} · ${feature.properties.start} → ${feature.properties.end}`);
+          line.addTo(map!);
+          bounds.extend(line.getBounds());
+
+          const [startLat, startLon] = coordinates[0];
+          L.circleMarker([startLat, startLon], {
+            radius: 7,
+            color: '#fffdf8',
+            weight: 3,
+            fillColor: feature.properties.color,
+            fillOpacity: 1,
+          }).bindTooltip(`${feature.properties.label} · ${feature.properties.start}`, { direction: 'top' }).addTo(map!);
+
+          if (legIndex === geojson.features.length - 1) {
+            const [endLat, endLon] = coordinates.at(-1)!;
+            L.circleMarker([endLat, endLon], {
+              radius: 8,
+              color: '#fffdf8',
+              weight: 3,
+              fillColor: feature.properties.color,
+              fillOpacity: 1,
+            }).bindTooltip(`Finish · ${feature.properties.end}`, { direction: 'top' }).addTo(map!);
+          }
+        });
+
+        map.fitBounds(bounds, { padding: [28, 28] });
+        setRoute(geojson);
+      } catch {
+        if (!disposed) setMapError(true);
+      }
+    }
+
+    void renderMap();
+    return () => {
+      disposed = true;
+      map?.remove();
+    };
+  }, []);
+
+  const distance = route ? Math.round(route.properties.distanceMetres / 1000).toLocaleString('en-GB') : '1,418';
+
+  return (
+    <section id="overview" className="bg-[#f7f4ed] px-5 py-14 sm:px-8 sm:py-20">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8 grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <p className="eyebrow">Your complete drive</p>
+            <h2 className="section-title">Zürich to Lugano,<br className="hidden sm:block" /> the beautiful way.</h2>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground">The full rental route uses Friday’s longer San Bernardino option. Switch to the shorter Albula route in the daily navigator if weather or timing demands it.</p>
+          </div>
+          <div className="flex flex-wrap gap-2 lg:justify-end">
+            <span className="rounded-full bg-[#10272f] px-4 py-2 text-sm font-semibold text-white">≈ {distance} km</span>
+            <span className="rounded-full bg-[#e4ebe3] px-4 py-2 text-sm font-semibold">5 driving days</span>
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-3xl border border-border bg-[#fffdf8] shadow-[0_24px_60px_rgb(18_38_45_/_8%)]">
+          <div className="grid min-w-0 lg:grid-cols-[minmax(260px,.54fr)_minmax(0,1.46fr)]">
+            <div className="min-w-0 border-b border-border p-5 sm:p-6 lg:border-b-0 lg:border-r">
+              <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-muted-foreground">Route at a glance</p>
+              <div className="mt-4 space-y-1">
+                {(route?.features ?? [
+                  { properties: { id: 'wednesday', label: 'Wed 09', start: 'Zürich', end: 'La Thuile', color: '#b84a32', distanceMetres: 460000 } },
+                  { properties: { id: 'thursday', label: 'Thu 10', start: 'La Thuile', end: 'Goms', color: '#396b67', distanceMetres: 341000 } },
+                  { properties: { id: 'friday', label: 'Fri 11', start: 'Goms', end: 'Valbella', color: '#5b637d', distanceMetres: 333000 } },
+                  { properties: { id: 'saturday', label: 'Sat 12', start: 'Valbella', end: 'Ascona', color: '#836036', distanceMetres: 241000 } },
+                  { properties: { id: 'sunday', label: 'Sun 13', start: 'Ascona', end: 'Lugano', color: '#263d45', distanceMetres: 43000 } },
+                ]).map((feature) => (
+                  <div key={feature.properties.id} className="full-route-leg">
+                    <span className="mt-1 size-2.5 shrink-0 rounded-full" style={{ backgroundColor: feature.properties.color }} />
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs font-semibold">{feature.properties.label}</span>
+                      <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">{feature.properties.start} → {feature.properties.end}</span>
+                    </span>
+                    <span className="font-mono text-[10px] text-muted-foreground">{Math.round(feature.properties.distanceMetres / 1000)} km</span>
+                  </div>
+                ))}
+              </div>
+              <a href="/gpx/full-tour.gpx" download className="map-button map-button-dark mt-6 w-full">
+                <Download className="size-4" /> Full-route TomTom GPX
+              </a>
+              <a href="#navigator" className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-[#b84a32] hover:underline">
+                Open daily restart navigator <Navigation className="size-3.5" />
+              </a>
+            </div>
+
+            <div className="relative min-h-[420px] min-w-0 bg-[#dfe8e0] sm:min-h-[520px]">
+              {mapError ? (
+                <div className="absolute inset-0 grid place-items-center p-8 text-center">
+                  <div><MapPin className="mx-auto size-7 text-[#b84a32]" /><p className="mt-3 font-semibold">The overview map could not load.</p><p className="mt-1 text-xs text-muted-foreground">The full GPX and daily routes still work.</p></div>
+                </div>
+              ) : null}
+              <div ref={mapElement} className="absolute inset-0 z-0" aria-label="OpenStreetMap overview of the full Fondue Tour route" />
+              <div className="pointer-events-none absolute bottom-4 left-4 z-[500] max-w-[260px] rounded-xl bg-[#10272f]/90 px-3 py-2 text-[10px] leading-4 text-white/75 shadow-lg backdrop-blur">
+                Full route shown with Friday’s longer option. Live closures still take precedence.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function directionsUrl(stops: Stop[], startIndex: number) {
   const remaining = stops.slice(startIndex);
