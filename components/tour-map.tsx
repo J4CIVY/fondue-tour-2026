@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Download, ExternalLink, FileArchive, MapPin, Navigation, Route } from 'lucide-react';
 import routePlans from '@/data/tour-routes.json';
+import { assetPath } from '@/lib/asset-path';
 
 type Stop = {
   time: string;
@@ -63,7 +64,7 @@ export function FullTourOverview() {
       try {
         const [L, response] = await Promise.all([
           import('leaflet'),
-          fetch('/routes/full-tour.geojson'),
+          fetch(assetPath('/routes/full-tour.geojson')),
         ]);
         if (!response.ok) throw new Error('Full route was not available');
         const geojson = await response.json() as FullRouteGeoJson;
@@ -168,7 +169,7 @@ export function FullTourOverview() {
                   </div>
                 ))}
               </div>
-              <a href="/gpx/full-tour.gpx" download className="map-button map-button-dark mt-6 w-full">
+              <a href={assetPath('/gpx/full-tour.gpx')} download className="map-button map-button-dark mt-6 w-full">
                 <Download className="size-4" /> Full-route TomTom GPX
               </a>
               <a href="#navigator" className="mobile-action-link mt-2 flex items-center justify-center gap-2 text-xs font-semibold text-[#b84a32] hover:underline">
@@ -241,7 +242,7 @@ export function TourMap() {
       try {
         const [L, response] = await Promise.all([
           import('leaflet'),
-          fetch(`/routes/${activePlan.id}.geojson`),
+          fetch(assetPath(`/routes/${activePlan.id}.geojson`)),
         ]);
         if (!response.ok) throw new Error('Route file was not available');
         const geojson = await response.json() as RouteGeoJson;
@@ -273,7 +274,7 @@ export function TourMap() {
 
         activePlan.stops.forEach((stop, index) => {
           const navigateUrl = directionsUrl(activePlan.stops, index);
-          const gpxUrl = `/gpx/continue/${activePlan.id}-from-${String(index + 1).padStart(2, '0')}.gpx`;
+          const gpxUrl = assetPath(`/gpx/continue/${activePlan.id}-from-${String(index + 1).padStart(2, '0')}.gpx`);
           L.circleMarker([stop.lat, stop.lon], {
             radius: index === 0 || index === activePlan.stops.length - 1 ? 8 : 6,
             color: '#fffdf8',
@@ -322,7 +323,7 @@ export function TourMap() {
               Pick a day, then tap the stop you are currently at. The Google Maps link carries forward every remaining waypoint; the companion GPX preserves the remaining TomTom track.
             </p>
           </div>
-          <a href="/downloads/fondue-tour-2026-tomtom-gpx.zip" download className="map-button map-button-dark">
+          <a href={assetPath('/downloads/fondue-tour-2026-tomtom-gpx.zip')} download className="map-button map-button-dark">
             <FileArchive className="size-4" /> Download all TomTom GPX
           </a>
         </div>
@@ -355,7 +356,7 @@ export function TourMap() {
                   <span className="stat-pill">{hours}</span>
                   <span className="stat-pill">{activePlan.stops.length} stops</span>
                 </div>
-                <a href={`/gpx/${activePlan.id}.gpx`} download className="compact-download mt-4 inline-flex items-center gap-2 text-xs font-semibold hover:underline" style={{ color: activePlan.color }}>
+                <a href={assetPath(`/gpx/${activePlan.id}.gpx`)} download className="compact-download mt-4 inline-flex items-center gap-2 text-xs font-semibold hover:underline" style={{ color: activePlan.color }}>
                   <Download className="size-3.5" /> Download this full GPX
                 </a>
               </div>
@@ -377,7 +378,7 @@ export function TourMap() {
                         <Navigation className="size-4 shrink-0" style={{ color: activePlan.color }} />
                       </a>
                       <a
-                        href={`/gpx/continue/${activePlan.id}-from-${String(index + 1).padStart(2, '0')}.gpx`}
+                        href={assetPath(`/gpx/continue/${activePlan.id}-from-${String(index + 1).padStart(2, '0')}.gpx`)}
                         download
                         className="route-restart-gpx"
                         aria-label={`Download GPX from ${stop.name}`}

@@ -21,8 +21,13 @@ import {
   Sparkles,
   Utensils,
 } from 'lucide-react';
+import { assetPath } from '@/lib/asset-path';
 import { StageProfile, highestSummit, summitCount } from '@/components/stage-profile';
 import { FullTourOverview, TourMap } from '@/components/tour-map';
+
+// The page has no request-time data, so it can be emitted as pure HTML. This lets
+// the same source produce a static export for GitHub Pages.
+export const dynamic = 'force-static';
 
 const mapsRoute = (origin: string, destination: string, waypoints: string[] = [], travelmode = 'driving') => {
   const params = new URLSearchParams({ api: '1', origin, destination, travelmode });
@@ -402,7 +407,7 @@ export default function Home() {
       <header className="site-header">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-2 sm:px-8">
           <a href="#top" className="site-brand flex min-h-11 items-center gap-2.5">
-            <Image src="/brand/fondue-tour-crest.png" alt="" width={205} height={298} className="tour-mark" />
+            <Image src={assetPath('/brand/fondue-tour-crest.png')} alt="" width={205} height={298} className="tour-mark" />
             <span className="brand-word"><span className="brand-long">Fondue Tour ’26</span><span className="brand-short">Fondue ’26</span></span>
           </a>
           <nav aria-label="Tour navigation" className="flex items-center gap-1 text-sm text-white/70">
@@ -416,7 +421,7 @@ export default function Home() {
 
       <section id="top" className="tour-hero">
         <Image
-          src="/brand/hero-road.jpg"
+          src={assetPath('/brand/hero-road.jpg')}
           alt="Silver convertible on a winding Alpine road at sunrise"
           width={1731}
           height={589}
@@ -425,7 +430,7 @@ export default function Home() {
         />
         <div className="hero-inner mx-auto max-w-6xl px-5 sm:px-8">
           <div className="hero-topline">
-            <Image src="/brand/fondue-tour-crest.png" alt="Fondue Tour crest" width={205} height={298} className="hero-mark" />
+            <Image src={assetPath('/brand/fondue-tour-crest.png')} alt="Fondue Tour crest" width={205} height={298} className="hero-mark" />
             <div className="hero-topline-copy">
               <span className="hero-kicker">Switzerland · France · Italy</span>
               <span className="hero-dates">Drive 9–13 September 2026 · Home 17 September</span>
@@ -471,7 +476,7 @@ export default function Home() {
             {tourers.map((tourer, index) => (
               <article key={tourer.name} className="tourer-card" style={{ '--tourer-color': tourer.accent } as React.CSSProperties}>
                 <div className="tourer-portrait-wrap">
-                  <Image src={tourer.portrait} alt={`${tourer.name}, Fondue Tour 2026`} width={480} height={480} className="tourer-portrait" />
+                  <Image src={assetPath(tourer.portrait)} alt={`${tourer.name}, Fondue Tour 2026`} width={480} height={480} className="tourer-portrait" />
                   <span className="tourer-number">{String(index + 1).padStart(2, '0')}</span>
                 </div>
                 <p className="tourer-name">{tourer.name}</p>

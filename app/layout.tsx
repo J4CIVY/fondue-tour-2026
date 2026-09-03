@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Barlow_Condensed, Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { assetPath, siteUrl } from '@/lib/asset-path';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -19,23 +20,23 @@ const barlowCondensed = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://fondue-tour-2026.jayfarei.chatgpt.site'),
+  metadataBase: new URL(siteUrl),
   title: 'Fondue Tour 2026 — Alpine Roadbook',
   description: 'A mobile roadbook with interactive routes, restart navigation and TomTom GPX downloads for the 2026 Fondue Tour.',
   openGraph: {
     title: 'Fondue Tour 2026',
     description: 'Five days. One Alpine line. Restart navigation and TomTom routes included.',
-    images: [{ url: '/og.png', width: 1731, height: 909, alt: 'Fondue Tour 2026 — Five days. One Alpine line.' }],
+    images: [{ url: assetPath('/og.png'), width: 1731, height: 909, alt: 'Fondue Tour 2026 — Five days. One Alpine line.' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Fondue Tour 2026',
     description: 'Five days. One Alpine line. Restart navigation and TomTom routes included.',
-    images: ['/og.png'],
+    images: [assetPath('/og.png')],
   },
   icons: {
-    icon: '/brand/fondue-tour-mark.png',
-    apple: '/brand/fondue-tour-mark.png',
+    icon: assetPath('/brand/fondue-tour-mark.png'),
+    apple: assetPath('/brand/fondue-tour-mark.png'),
   },
 };
 

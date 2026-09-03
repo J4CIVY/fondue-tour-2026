@@ -12,7 +12,8 @@
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "format": "oxfmt",
-    "elevation": "node scripts/build-elevation.mjs"
+    "elevation": "node scripts/build-elevation.mjs",
+    "build:static": "VINEXT_STATIC_EXPORT=1 vinext build && node scripts/build-static.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
