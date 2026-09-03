@@ -293,7 +293,7 @@ const days: Day[] = [
 const tourers = [
   { name: 'Marco', portrait: '/brand/profiles/marco.webp', power: 'Cheese Saber', accent: '#f3bf2b' },
   { name: 'Aris', portrait: '/brand/profiles/aris.webp', power: 'Fondue Forks', accent: '#4f81d9' },
-  { name: 'Simon', portrait: '/brand/profiles/simon.webp', power: 'Molten Shield', accent: '#dc6837' },
+  { name: 'Si', portrait: '/brand/profiles/simon.webp', power: 'Molten Shield', accent: '#dc6837' },
   { name: 'Adrien', portrait: '/brand/profiles/adrien.webp', power: 'Raclette Edge', accent: '#83a77f' },
   { name: 'Gabriele', portrait: '/brand/profiles/gabriele.webp', power: 'Alpine Reactor', accent: '#3ca6a0' },
   { name: 'Henry', portrait: '/brand/profiles/henry.webp', power: 'Steam Lance', accent: '#c3ced6' },
