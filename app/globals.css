@@ -109,6 +109,7 @@ body { overflow-x: hidden; background: var(--background); }
 body { --font-display: var(--font-barlow), 'Barlow Condensed', 'Arial Narrow', sans-serif; }
 
 #top,
+#rendezvous,
 #overview,
 #navigator,
 #roadbook,
@@ -369,21 +370,171 @@ body { --font-display: var(--font-barlow), 'Barlow Condensed', 'Arial Narrow', s
 
 /* ---------- Arrival strip ---------- */
 
-.arrival-strip {
+.rendezvous {
   border-bottom: 1px solid var(--border);
   background: #e8ede4;
 }
 
-.arrival-icon {
+.approach-grid {
   display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
+  gap: 1rem;
+  counter-reset: approach;
+}
+
+@media (min-width: 768px) {
+  .approach-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.approach {
+  --approach-color: var(--fondue);
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  border-top: 4px solid var(--approach-color);
+  border-radius: 0 0 1rem 1rem;
+  background: #fffdf8;
+  padding: 1.25rem;
+  box-shadow: 0 10px 30px rgb(18 38 45 / 6%);
+}
+
+.approach-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+}
+
+.approach-clock {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--approach-color);
+}
+
+.approach-clock-note {
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.approach-origin {
+  margin-top: .65rem;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.approach-who {
+  margin-top: .25rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: .66rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--approach-color);
+}
+
+.approach-copy {
+  margin-top: .75rem;
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+
+.approach-stats {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 1.25rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: .8rem;
+}
+
+.approach-stats dt {
+  font-size: .58rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.approach-stats dd {
+  margin-top: .1rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.approach-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: .4rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  font-family: var(--font-display);
+  font-size: .95rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--approach-color);
+}
+
+.approach-link:hover { text-decoration: underline; }
+
+.rendezvous-target {
+  display: grid;
+  gap: .75rem 1rem;
+  margin-top: 1.25rem;
+  border-radius: 1rem;
+  background: var(--pine);
+  padding: 1.25rem;
+  color: #fff;
+}
+
+@media (min-width: 900px) {
+  .rendezvous-target {
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 15rem);
+    align-items: center;
+  }
+}
+
+.rendezvous-pin {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
   flex: 0 0 auto;
   place-items: center;
   border-radius: 999px;
-  background: #fff;
-  color: var(--fondue);
-  box-shadow: 0 1px 3px rgb(18 38 45 / 12%);
+  background: var(--mustard);
+  color: var(--ink);
+}
+
+.rendezvous-target-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.rendezvous-target-note {
+  margin-top: .2rem;
+  font-size: .78rem;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 62%);
+}
+
+.rendezvous-margin {
+  border-left: 2px solid var(--mustard);
+  padding-left: .8rem;
+  font-size: .72rem;
+  line-height: 1.45;
+  color: rgb(255 255 255 / 72%);
 }
 
 /* ---------- Stage profile (signature) ---------- */

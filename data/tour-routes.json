@@ -34,6 +34,23 @@
     ]
   },
   {
+    "id": "wednesday-geneva",
+    "day": "Wed 09 · Geneva",
+    "title": "Geneva to the rendezvous, then La Thuile",
+    "subtitle": "Marco and Si land at 11:05 and drive up through Annecy to join the group at Col des Aravis.",
+    "color": "#cf6a44",
+    "stops": [
+      { "time": "11:05", "name": "Genève Aéroport", "detail": "Lands from London 08:25", "lat": 46.2370779, "lon": 6.1090068 },
+      { "time": "13:00", "name": "Le Chalet Savoyard · Col des Aravis", "detail": "Lunch and group rendezvous", "lat": 45.872759, "lon": 6.4634548 },
+      { "time": "15:57", "name": "Les Saisies", "detail": "Scenic leg", "lat": 45.756431, "lon": 6.541775 },
+      { "time": "16:42", "name": "Le Chalet de Roselend", "detail": "Coffee and photo stop", "lat": 45.695036, "lon": 6.6348689 },
+      { "time": "", "name": "Cormet de Roselend", "detail": "Roadbook waypoint", "lat": 45.693806, "lon": 6.658449 },
+      { "time": "", "name": "Hospice du Petit-Saint-Bernard", "detail": "France–Italy crossing", "lat": 45.6714524, "lon": 6.8756012 },
+      { "time": "", "name": "Colle del Piccolo San Bernardo", "detail": "Italian side of the pass", "lat": 45.6833134, "lon": 6.8860358 },
+      { "time": "18:50", "name": "Chalet Eden · La Thuile", "detail": "Dinner 20:30", "lat": 45.7081906, "lon": 6.9511927 }
+    ]
+  },
+  {
     "id": "wednesday-group",
     "day": "Wed 09 · Group",
     "title": "Val Cenis to La Thuile",

@@ -40,6 +40,10 @@ const mapLinks = {
     'ibis budget Zurich Airport, Flughofstrasse 45, 8152 Glattbrugg, Switzerland',
     'Restaurant Le Chalet Savoyard, 7400 Route du Col des Aravis, 74220 La Clusaz, France',
   ),
+  genevaMeet: mapsRoute(
+    'Genève Aéroport, 1218 Le Grand-Saconnex, Switzerland',
+    'Restaurant Le Chalet Savoyard, 7400 Route du Col des Aravis, 74220 La Clusaz, France',
+  ),
   tuesdayWarmupA: mapsRoute(
     'Menton, France',
     'Col d’Izoard, France',
@@ -178,6 +182,7 @@ const days: Day[] = [
     badge: 'Meet 13:00–14:00',
     routes: [
       { label: 'Your Zürich → meetup route', href: mapLinks.personalMeet, note: 'Leave 06:30–06:45' },
+      { label: 'Geneva → meetup route', href: mapLinks.genevaMeet, note: 'Marco & Si · lands 11:05' },
       { label: 'Group morning route', href: mapLinks.wednesdayMorning },
       { label: 'Group afternoon route', href: mapLinks.wednesdayAfternoon },
     ],
@@ -287,6 +292,47 @@ const days: Day[] = [
       { time: 'After return', place: 'Bellinzona', note: 'Bus / train home', icon: Map },
     ],
     callout: { title: 'Document the return', copy: 'Photograph every panel, fuel gauge, mileage, parking bay and key-drop. Keep the final receipt and return evidence.', icon: ShieldCheck },
+  },
+];
+
+// Wednesday's three driving approaches, all aiming at the same 13:00 lunch.
+// Distances and times are the mapped leg to Col des Aravis.
+const approaches = [
+  {
+    id: 'geneva',
+    origin: 'Geneva',
+    clock: '11:05',
+    clockNote: 'Wheels down',
+    who: 'Marco · Si',
+    copy: 'Lands from London 08:25. Collect the car, then 65 km up through Annecy and La Clusaz.',
+    distance: '65 km',
+    mapped: '1h 11m',
+    href: mapLinks.genevaMeet,
+    accent: '#cf6a44',
+  },
+  {
+    id: 'zurich',
+    origin: 'Zürich',
+    clock: '06:30',
+    clockNote: 'Roll out',
+    who: 'Gabriele',
+    copy: 'Landed Tuesday night and slept at the airport ibis. The long run across France.',
+    distance: '334 km',
+    mapped: '4h 07m',
+    href: mapLinks.personalMeet,
+    accent: '#b84a32',
+  },
+  {
+    id: 'valcenis',
+    origin: 'Val Cenis',
+    clock: '09:00',
+    clockNote: 'Group away',
+    who: 'Adrien + warm-up crew',
+    copy: 'Off the Tuesday warm-up, over Col de l’Iseran and down through Bourg-Saint-Maurice.',
+    distance: '147 km',
+    mapped: '2h 00m',
+    href: mapLinks.wednesdayMorning,
+    accent: '#a93e2b',
   },
 ];
 
@@ -451,16 +497,45 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="arrival-strip" aria-label="Personal arrival plan">
-        <div className="mx-auto grid max-w-6xl gap-5 px-5 py-5 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div className="flex gap-4">
-            <span className="arrival-icon"><Plane className="size-4" /></span>
+      <section id="rendezvous" className="rendezvous" aria-label="Wednesday approaches to the rendezvous">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
+          <div className="mb-9 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <p className="font-semibold">Your runway to the rendezvous</p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">Tue 8: Gatwick 17:05 → Zürich 19:50 · Car 21:30 · ibis overnight · Depart 06:30–06:45</p>
+              <p className="eyebrow">Wednesday 9 September</p>
+              <h2 className="display-title">Three roads.<br />One lunch table.</h2>
             </div>
+            <p className="max-w-sm text-sm leading-6 text-muted-foreground">Everyone converges on Col des Aravis for 13:00. Aris and Henry travel separately from London and Edinburgh.</p>
           </div>
-          <a href={mapLinks.personalMeet} target="_blank" rel="noreferrer" className="map-button map-button-dark">Navigate to meetup <ArrowUpRight className="size-4" /></a>
+
+          <ol className="approach-grid">
+            {approaches.map((approach) => (
+              <li key={approach.id} className="approach" style={{ '--approach-color': approach.accent } as React.CSSProperties}>
+                <div className="approach-head">
+                  <span className="approach-clock">{approach.clock}</span>
+                  <span className="approach-clock-note">{approach.clockNote}</span>
+                </div>
+                <p className="approach-origin">{approach.origin}</p>
+                <p className="approach-who">{approach.who}</p>
+                <p className="approach-copy">{approach.copy}</p>
+                <dl className="approach-stats">
+                  <div><dt>Distance</dt><dd>{approach.distance}</dd></div>
+                  <div><dt>Mapped</dt><dd>{approach.mapped}</dd></div>
+                </dl>
+                <a href={approach.href} target="_blank" rel="noreferrer" className="approach-link">
+                  Open the drive <ArrowUpRight className="size-3.5" />
+                </a>
+              </li>
+            ))}
+          </ol>
+
+          <div className="rendezvous-target">
+            <span className="rendezvous-pin"><MapPinned className="size-4" /></span>
+            <div className="min-w-0">
+              <p className="rendezvous-target-title">Col des Aravis · 13:00</p>
+              <p className="rendezvous-target-note">Restaurant Le Chalet Savoyard, 7400 Route du Col des Aravis, La Clusaz. The afternoon runs together from here to La Thuile.</p>
+            </div>
+            <p className="rendezvous-margin">Geneva lands 1h 55m before lunch and the drive is 1h 11m, so bags and the rental desk have about 40 minutes.</p>
+          </div>
         </div>
       </section>
 
